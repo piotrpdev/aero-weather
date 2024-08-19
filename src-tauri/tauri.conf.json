@@ -19,8 +19,8 @@
 				"fullscreen": false,
 				"resizable": true,
 				"title": "tauri-app",
-				"width": 600,
-				"height": 400,
+				"width": 854,
+				"height": 601,
 				"titleBarStyle": "Overlay",
 				"hiddenTitle": true,
 				"transparent": true
