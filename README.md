@@ -1,13 +1,14 @@
-# Svelte + Vite
+# Aero Weather
 
-This template should help get you started developing with Tauri and Svelte in Vite.
+Code based on [`tauri-plugin-decorum` example](https://github.com/clearlysid/tauri-plugin-decorum).
 
-## Recommended IDE Setup
+Design is
+["attempt at designing the weather app"](https://x.com/1000kilobytes/status/1825361813774708910/)
+by [kilobyte (@1000kilobytes)](https://x.com/1000kilobytes).
 
-[VS Code](https://code.visualstudio.com/)
-+
-[Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode)
-+
-[Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode)
-+
-[rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer).
+## Development
+
+```bash
+npm install
+npm run tauri dev
+```

@@ -1,10 +1,10 @@
 [package]
-name = "tauri-app"
+name = "aero-weather"
 version = "0.0.0"
 description = "A Tauri App"
-authors = ["you"]
-license = ""
-repository = ""
+authors = ["Piotr Płaczek <piotrpdev@gmail.com>", "kilobyte <https://x.com/1000kilobytes>"]
+license = "GPL-3.0"
+repository = "https://github.com/piotrpdev/aero-weather"
 edition = "2021"
 rust-version = "1.70"
 

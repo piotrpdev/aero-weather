@@ -1,5 +1,9 @@
 {
-	"name": "tauri-app",
+	"name": "aero-weather",
+	"description": "A Tauri App",
+	"author": "Piotr Płaczek <piotrpdev@gmail.com>",
+	"contributors": ["kilobyte <https://x.com/1000kilobytes>"],
+	"license": "GPL-3.0",
 	"private": false,
 	"version": "0.0.0",
 	"type": "module",
@@ -9,6 +13,10 @@
 		"preview": "vite preview",
 		"tauri": "tauri",
 		"lint:write": "biome check --write"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/piotrpdev/aero-weather"
 	},
 	"dependencies": {
 		"@tauri-apps/api": "^2.0.0-beta.15",

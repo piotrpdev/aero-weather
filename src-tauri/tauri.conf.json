@@ -1,7 +1,7 @@
 {
-	"productName": "tauri-app",
+	"productName": "aero-weather",
 	"version": "0.0.0",
-	"identifier": "com.tauritempplugin.dev",
+	"identifier": "dev.piotrp.aero-weather",
 	"build": {
 		"beforeDevCommand": "yarn dev",
 		"beforeBuildCommand": "yarn build",
