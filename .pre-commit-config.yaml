@@ -1,0 +1,44 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+exclude: '^.*src-tauri/gen/.*$'
+repos:
+    - repo: https://github.com/commitizen-tools/commitizen
+      rev: v3.29.0
+      hooks:
+          - id: commitizen
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v4.6.0
+      hooks:
+          - id: trailing-whitespace
+          - id: end-of-file-fixer
+          - id: mixed-line-ending
+          - id: check-yaml
+          - id: check-json
+          - id: check-toml
+          - id: check-added-large-files
+    - repo: https://github.com/DavidAnson/markdownlint-cli2
+      rev: v0.13.0
+      hooks:
+          - id: markdownlint-cli2
+    - repo: local
+      hooks:
+          - id: local-web-lint
+            name: web lint:write
+            entry: npm run lint:write
+            language: system
+            types: [text]
+            files: "\\.(jsx?|tsx?|c(js|ts)|m(js|ts)|d\\.(ts|cts|mts)|jsonc?|css)$"
+            pass_filenames: false
+          - id: fmt
+            name: fmt
+            entry: cargo fmt
+            language: system
+            types: [rust]
+            args: ["--manifest-path", "./src-tauri/Cargo.toml", "--"]
+          - id: clippy
+            name: clippy
+            entry: cargo clippy
+            language: system
+            types: [rust]
+            args: ["--manifest-path", "./src-tauri/Cargo.toml", "--fix", "--allow-staged", "--", "-W", "clippy::pedantic", "-D", "warnings"]
+            pass_filenames: false
