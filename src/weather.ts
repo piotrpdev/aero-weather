@@ -1,5 +1,5 @@
 // TODO: update this type when decided on API params
-export type Geolocation = {
+export type GeolocationData = {
 	place_id: number;
 	licence: string;
 	osm_type: string;
@@ -29,7 +29,7 @@ export type Geolocation = {
 };
 
 // TODO: update this type when decided on API params
-export type Forecast = {
+export type ForecastData = {
 	latitude: number;
 	longitude: number;
 	generationtime_ms: number;
@@ -67,7 +67,7 @@ export type Forecast = {
 	};
 };
 
-export type Wmo_descriptions = Record<
+export type WmoDescriptions = Record<
 	string,
 	{
 		day: {
@@ -82,7 +82,7 @@ export type Wmo_descriptions = Record<
 >;
 
 // TODO: Maybe change key to number instead
-export const wmo_descriptions: Wmo_descriptions = {
+export const wmo_descriptions: WmoDescriptions = {
 	"0": {
 		day: {
 			description: "Sunny",

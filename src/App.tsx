@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
-import { type Forecast, type Geolocation, wmo_descriptions } from "./weather";
+import {
+	type ForecastData,
+	type GeolocationData,
+	wmo_descriptions,
+} from "./weather";
 
 function App() {
 	const [coords, setCoords] = useState<GeolocationCoordinates>();
-	const [geolocation, setGeolocation] = useState<Geolocation>();
-	const [forecast, setForecast] = useState<Forecast>();
+	const [geolocation, setGeolocation] = useState<GeolocationData>();
+	const [forecast, setForecast] = useState<ForecastData>();
 
 	useEffect(() => {
 		// No fancy window blur possible on Linux
