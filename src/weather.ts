@@ -82,6 +82,8 @@ export type WmoDescriptions = Record<
 >;
 
 // TODO: Maybe change key to number instead
+// Taken from this URL: https://gist.github.com/stellasphere/9490c195ed2b53c707087c8c2db4ec0c
+// Further detail here: https://www.nodc.noaa.gov/archive/arc0021/0002199/1.1/data/0-data/HTML/WMO-CODE/WMO4677.HTM
 export const wmo_descriptions: WmoDescriptions = {
 	"0": {
 		day: {
