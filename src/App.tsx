@@ -10,6 +10,34 @@ function App() {
 	const [geolocation, setGeolocation] = useState<GeolocationData>();
 	const [forecast, setForecast] = useState<ForecastData>();
 
+	// Math.round(forecast.current.temperature_2m) + forecast.current_units.temperature_2m)
+	const formatTemperature = (temperature: number): string => {
+		if (!geolocation) return temperature.toString();
+
+		// https://en.wikipedia.org/wiki/Fahrenheit
+		// https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
+		if (
+			["us", "bs", "ky", "pw", "fm", "mh", "lr"].includes(
+				geolocation.address.country_code,
+			)
+		) {
+			// IEEE 754 has come to haunt us
+			const fahrenheit = temperature * 1.8 + 32;
+			return `${Math.round(fahrenheit)}°F`;
+		}
+
+		return `${Math.round(temperature)}°C`;
+	};
+
+	const intlFormatter = new Intl.DateTimeFormat("en-US", {
+		hour12: true,
+		hour: "numeric",
+	});
+	// https://stackoverflow.com/a/32252922/19020549
+	const formatDateTime = (datetime: string): string =>
+		// biome-ignore lint/style/useTemplate: readability
+		intlFormatter.format(new Date(datetime + "Z"));
+
 	useEffect(() => {
 		// No fancy window blur possible on Linux
 		if (navigator.userAgent.includes("Linux")) {
@@ -69,8 +97,10 @@ function App() {
 			);
 			forecastApiUrl.searchParams.set(
 				"hourly",
-				"temperature_2m,weather_code",
+				"temperature_2m,weather_code,is_day",
 			);
+			forecastApiUrl.searchParams.set("temperature_unit", "celsius");
+			forecastApiUrl.searchParams.set("timezone", "UTC");
 
 			fetch(forecastApiUrl.toString())
 				.then((res) => res.json())
@@ -83,33 +113,88 @@ function App() {
 
 	// TODO: Add OSM and Open-Meteo attribution
 	return (
-		<div className="container">
-			<header>
-				<h5 id="my-location">My Location</h5>
-				<div id="city-state-temperature">
-					<div id="city-state">
-						<h1 id="city">
-							{geolocation?.address.city || "Redmond"}
+		<div id="container">
+			<div id="inner-container">
+				<header>
+					<h5 id="my-location">My Location</h5>
+					<div id="city-state-temperature">
+						<div id="city-state">
+							<h1 id="city">
+								{geolocation?.address.city || "Loading..."}
+							</h1>
+							<h3 id="state">
+								{geolocation?.address.country || "Loading..."}
+							</h3>
+						</div>
+						<h1 id="temperature">
+							{(forecast &&
+								formatTemperature(
+									forecast.current.temperature_2m,
+								)) ||
+								"Loading..."}
 						</h1>
-						<h3 id="state">
-							{geolocation?.address.country || "USA"}
-						</h3>
 					</div>
-					<h1 id="temperature">
+					<h5 id="type">
 						{(forecast &&
-							forecast?.current.temperature_2m +
-								forecast?.current_units.temperature_2m) ||
-							"61&deg;"}
-					</h1>
-				</div>
-				<h5 id="type">
-					{(forecast &&
-						wmo_descriptions[forecast.current.weather_code][
-							forecast.current.is_day !== 0 ? "day" : "night"
-						].description) ||
-						"Thunderstorm"}
-				</h5>
-			</header>
+							wmo_descriptions[forecast.current.weather_code][
+								forecast.current.is_day !== 0 ? "day" : "night"
+							].description) ||
+							"Thunderstorm"}
+					</h5>
+				</header>
+				<main>
+					<div id="blend">
+						<section id="hourly-forecast-container">
+							<h3 id="hourly-forecast-heading">
+								Heavy rain will continue in the next hour.
+							</h3>
+							<div id="hourly-forecast-list">
+								{forecast?.hourly.time.map((time, index) => (
+									<div
+										key={time}
+										className="hourly-forecast-item"
+									>
+										<div>{formatDateTime(time)}</div>
+										<div className="hourly-forecast-item-image-container">
+											<img
+												src={
+													wmo_descriptions[
+														forecast.current
+															.weather_code
+													][
+														forecast.current
+															.is_day !== 0
+															? "day"
+															: "night"
+													].image
+												}
+												alt={
+													wmo_descriptions[
+														forecast.current
+															.weather_code
+													][
+														forecast.current
+															.is_day !== 0
+															? "day"
+															: "night"
+													].description
+												}
+											/>
+										</div>
+										<div>
+											{formatTemperature(
+												forecast.hourly.temperature_2m[
+													index
+												],
+											)}
+										</div>
+									</div>
+								))}
+							</div>
+						</section>
+					</div>
+				</main>
+			</div>
 		</div>
 	);
 }

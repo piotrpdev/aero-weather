@@ -84,15 +84,19 @@ div[data-tauri-decorum-tb] {
 	left: -8px !important;
 }
 
-.container {
-	background-image: url(./assets/thunderstorm.jpg);
-	background-size: 100%;
+#container {
+	background-image: linear-gradient(to bottom, #060710, transparent 40%), url(./assets/thunderstorm.jpg);
+	background-size: cover;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
 }
 
-:not(.linux):not(.web) > .container {
+#inner-container {
+	margin: 32px;
+}
+
+:not(.linux):not(.web) > #container {
 	border-radius: 3px;
 }
 
@@ -100,7 +104,7 @@ header {
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
-	margin: 32px;
+	margin-bottom: 70px;
 }
 
 header #my-location {
@@ -144,9 +148,65 @@ header #type {
 	margin: 0;
 }
 
-.row {
+main:before {
+	content: ' ';
+	display: block;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0.5;
+	background-image: url(./assets/glass.jpeg);
+	background-repeat: no-repeat;
+	background-position: 50% 0;
+	background-size: cover;
+	border-radius: 5px;
+	mix-blend-mode: plus-lighter;
+    background-blend-mode: luminosity;
+    background-color: white;
+}
+
+main {
+	backdrop-filter: blur(15px);
+	position: relative;
+	mix-blend-mode: overlay;
+}
+
+#hourly-forecast-container {
 	display: flex;
-	justify-content: center;
+	flex-direction: column;
+	/* background-color: #363f518f; */
+	border-radius: 5px;
+	padding: 20px;
+}
+
+/* #hourly-forecast-container :not(#hourly-forecast-list, #hourly-forecast-list *) {
+	opacity: 0.2;
+} */
+
+#hourly-forecast-list {
+	display: flex;
+	flex-direction: row;
+	/* Maybe just make scrollbar nicer */
+	overflow-x: clip;
+	gap: 20px;
+}
+
+#hourly-forecast-heading {
+	margin-top: 0;
+	margin-bottom: 24px;
+}
+
+.hourly-forecast-item {
+	display: flex;
+	flex-direction: column;
+    align-items: center;
+	min-width: fit-content;
+}
+
+.hourly-forecast-item-image-container > img {
+	width: 50px;
 }
 
 /* @media (prefers-color-scheme: dark) {

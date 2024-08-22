@@ -62,8 +62,8 @@ export type ForecastData = {
 	hourly: {
 		time: Array<string>;
 		temperature_2m: Array<number>;
-		relative_humidity_2m: Array<number>;
-		wind_speed_10m: Array<number>;
+		weather_code: number;
+		is_day: number;
 	};
 };
 
