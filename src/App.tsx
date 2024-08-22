@@ -6,6 +6,14 @@ function App() {
 	const [geolocation, setGeolocation] = useState<Geolocation>();
 	const [forecast, setForecast] = useState<Forecast>();
 
+	useEffect(() => {
+		// No fancy window blur possible on Linux
+		if (navigator.userAgent.includes("Linux")) {
+			console.log("User agent includes 'Linux', changing styles...");
+			document.querySelector("#root")?.classList.add("linux");
+		}
+	}, []);
+
 	// biome-ignore lint/correctness/useExhaustiveDependencies: object dep
 	useEffect(() => {
 		navigator.geolocation.getCurrentPosition((position) => {
