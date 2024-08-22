@@ -34,7 +34,7 @@
 	box-sizing: border-box;
 }
 
-#root:not(.linux) {
+#root:not(.linux):not(.web) {
 	padding: 32px 8px 8px 8px;
 }
 
@@ -90,6 +90,9 @@ div[data-tauri-decorum-tb] {
 	height: 100%;
 	display: flex;
 	flex-direction: column;
+}
+
+:not(.linux):not(.web) > .container {
 	border-radius: 3px;
 }
 

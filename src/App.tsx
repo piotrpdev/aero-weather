@@ -16,6 +16,11 @@ function App() {
 			console.log("User agent includes 'Linux', changing styles...");
 			document.querySelector("#root")?.classList.add("linux");
 		}
+
+		if (!("__TAURI_INTERNALS__" in window)) {
+			console.log("Not running in Tauri, changing styles...");
+			document.querySelector("#root")?.classList.add("web");
+		}
 	}, []);
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: object dep
@@ -76,6 +81,7 @@ function App() {
 		}
 	}, [coords?.longitude]);
 
+	// TODO: Add OSM and Open-Meteo attribution
 	return (
 		<div className="container">
 			<header>
