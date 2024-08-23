@@ -10,7 +10,6 @@ function App() {
 	const [geolocation, setGeolocation] = useState<GeolocationData>();
 	const [forecast, setForecast] = useState<ForecastData>();
 
-	// Math.round(forecast.current.temperature_2m) + forecast.current_units.temperature_2m)
 	const formatTemperature = (temperature: number): string => {
 		if (!geolocation) return temperature.toString();
 
@@ -53,12 +52,15 @@ function App() {
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: object dep
 	useEffect(() => {
+		// TODO: Maybe use Tauri geolocation API for better accuracy
 		navigator.geolocation.getCurrentPosition((position) => {
 			setCoords(position.coords);
 		});
 
 		if (coords !== undefined) {
 			console.log("Coordinate data is:", coords);
+
+			// TODO: Handle errors
 
 			const geolocationApiUrl = new URL(
 				"https://nominatim.openstreetmap.org/reverse",
@@ -112,6 +114,9 @@ function App() {
 	}, [coords?.longitude]);
 
 	// TODO: Add OSM and Open-Meteo attribution
+	// TODO: Maybe user SWR/React Query for data fetching
+	// TODO: Add error handling (maybe use ErrorBoundary)
+	// TODO: Add loading states
 	return (
 		<div id="container">
 			<div id="inner-container">
@@ -126,6 +131,7 @@ function App() {
 								{geolocation?.address.country || "Loading..."}
 							</h3>
 						</div>
+						{/* TODO: Maybe let user click on this to change temperature units */}
 						<h1 id="temperature">
 							{(forecast &&
 								formatTemperature(
@@ -139,14 +145,25 @@ function App() {
 							wmo_descriptions[forecast.current.weather_code][
 								forecast.current.is_day !== 0 ? "day" : "night"
 							].description) ||
-							"Thunderstorm"}
+							"Loading..."}
 					</h5>
 				</header>
 				<main>
 					<div id="blend">
 						<section id="hourly-forecast-container">
 							<h3 id="hourly-forecast-heading">
-								Heavy rain will continue in the next hour.
+								{/* TODO: Actually implement prediction here */}
+								{(forecast &&
+									`${
+										wmo_descriptions[
+											forecast.current.weather_code
+										][
+											forecast.current.is_day !== 0
+												? "day"
+												: "night"
+										].description
+									} will continue in the next hour.`) ||
+									"Loading..."}
 							</h3>
 							<div id="hourly-forecast-list">
 								{forecast?.hourly.time.map((time, index) => (
@@ -156,25 +173,28 @@ function App() {
 									>
 										<div>{formatDateTime(time)}</div>
 										<div className="hourly-forecast-item-image-container">
+											{/* TODO: Either use realistic weather icon set or handle caching (or both) */}
 											<img
 												src={
 													wmo_descriptions[
-														forecast.current
-															.weather_code
+														forecast.hourly
+															.weather_code[index]
 													][
-														forecast.current
-															.is_day !== 0
+														forecast.hourly.is_day[
+															index
+														] !== 0
 															? "day"
 															: "night"
 													].image
 												}
 												alt={
 													wmo_descriptions[
-														forecast.current
-															.weather_code
+														forecast.hourly
+															.weather_code[index]
 													][
-														forecast.current
-															.is_day !== 0
+														forecast.hourly.is_day[
+															index
+														] !== 0
 															? "day"
 															: "night"
 													].description
