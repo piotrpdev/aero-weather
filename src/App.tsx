@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import defaultWeatherIcon from "./assets/realll/default.png";
 import {
 	type ForecastData,
 	type GeolocationData,
@@ -128,10 +129,11 @@ function App() {
 							<h1 id="city">
 								{geolocation?.address.city ||
 									geolocation?.address.county ||
-									"Loading..."}
+									"Unknown City/County"}
 							</h1>
 							<h3 id="state">
-								{geolocation?.address.country || "Loading..."}
+								{geolocation?.address.country ||
+									"Unknown Country"}
 							</h3>
 						</div>
 						{/* TODO: Maybe let user click on this to change temperature units */}
@@ -140,33 +142,33 @@ function App() {
 								formatTemperature(
 									forecast.current.temperature_2m,
 								)) ||
-								"Loading..."}
+								"Unknown Temperature"}
 						</h1>
 					</div>
 					<h5 id="type">
 						{(forecast &&
-							wmo_descriptions[forecast.current.weather_code][
+							wmo_descriptions[forecast.current.weather_code]?.[
 								forecast.current.is_day !== 0 ? "day" : "night"
-							].description) ||
-							"Loading..."}
+							]?.description) ||
+							"Unknown Weather"}
 					</h5>
 				</header>
 				<main>
 					<div id="blend">
 						<section id="hourly-forecast-container">
 							<h3 id="hourly-forecast-heading">
-								{/* TODO: Actually implement prediction here */}
+								{/* TODO: Actually implement prediction here, handle 'Clear will continue...' */}
 								{(forecast &&
 									`${
 										wmo_descriptions[
 											forecast.current.weather_code
-										][
+										]?.[
 											forecast.current.is_day !== 0
 												? "day"
 												: "night"
-										].description
+										]?.description || "Unknown Weather"
 									} will continue in the next hour.`) ||
-									"Loading..."}
+									"Unknown Weather"}
 							</h3>
 							<div id="hourly-forecast-list">
 								{forecast?.hourly.time.map((time, index) => (
@@ -175,35 +177,35 @@ function App() {
 										className="hourly-forecast-item"
 									>
 										<div>{formatDateTime(time)}</div>
-										<div className="hourly-forecast-item-image-container">
-											{/* TODO: Either use realistic weather icon set or handle caching (or both) */}
-											<img
-												src={
-													wmo_descriptions[
-														forecast.hourly
-															.weather_code[index]
-													][
-														forecast.hourly.is_day[
-															index
-														] !== 0
-															? "day"
-															: "night"
-													].image
-												}
-												alt={
-													wmo_descriptions[
-														forecast.hourly
-															.weather_code[index]
-													][
-														forecast.hourly.is_day[
-															index
-														] !== 0
-															? "day"
-															: "night"
-													].description
-												}
-											/>
-										</div>
+										{/* TODO: Either use realistic weather icon set or handle caching (or both) */}
+										<img
+											className="hourly-forecast-item-image"
+											src={
+												wmo_descriptions[
+													forecast.hourly
+														.weather_code[index]
+												]?.[
+													forecast.hourly.is_day[
+														index
+													] !== 0
+														? "day"
+														: "night"
+												]?.image || defaultWeatherIcon
+											}
+											alt={
+												wmo_descriptions[
+													forecast.hourly
+														.weather_code[index]
+												]?.[
+													forecast.hourly.is_day[
+														index
+													] !== 0
+														? "day"
+														: "night"
+												]?.description ||
+												"Unknown Weather"
+											}
+										/>
 										<div>
 											{formatTemperature(
 												forecast.hourly.temperature_2m[
