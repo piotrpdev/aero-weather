@@ -33,6 +33,7 @@ Made using the following resources:
 | [WMO Code Descriptions][wmo]              | ?                                 |
 | [Nominatim Reverse Geocoding API][geo]    | [ODbL][geo-license][^1] (data)    |
 | [Open-Meteo Forecast API][meteo]          | [CC BY 4.0][meteo-license] (data) |
+| [Realll Weather Icons][realll]            | ?                                 |
 
 [^1]: OpenStreetMap® is open data, licensed under the
 [Open Data Commons Open Database License (ODbL)][geo-license] by the
@@ -50,3 +51,4 @@ Made using the following resources:
 [meteo-license]: https://open-meteo.com/en/license
 [decorum]: https://github.com/clearlysid/tauri-plugin-decorum
 [decorum-license]: https://github.com/clearlysid/tauri-plugin-decorum/blob/main/LICENSE
+[realll]: https://xdaforums.com/t/collection-weather-icon-sets-for-uccw-2-0.1922149/
