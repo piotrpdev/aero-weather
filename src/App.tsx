@@ -117,6 +117,7 @@ function App() {
 	// TODO: Maybe user SWR/React Query for data fetching
 	// TODO: Add error handling (maybe use ErrorBoundary)
 	// TODO: Add loading states
+	// TODO: Extract components
 	return (
 		<div id="container">
 			<div id="inner-container">
@@ -125,7 +126,9 @@ function App() {
 					<div id="city-state-temperature">
 						<div id="city-state">
 							<h1 id="city">
-								{geolocation?.address.city || "Loading..."}
+								{geolocation?.address.city ||
+									geolocation?.address.county ||
+									"Loading..."}
 							</h1>
 							<h3 id="state">
 								{geolocation?.address.country || "Loading..."}
