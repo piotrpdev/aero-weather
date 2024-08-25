@@ -38,6 +38,35 @@ function App() {
 		// biome-ignore lint/style/useTemplate: readability
 		intlFormatter.format(new Date(datetime + "Z"));
 
+	// https://gist.github.com/thesofakillers/bcf39eaed428304ddc126ca8f12336f7
+	function convertObjectArraysToArrayOfObjects<T>(
+		objectArrays: Record<string, Array<T>>,
+	): Array<Record<string, T>> {
+		return objectArrays[Object.keys(objectArrays)[0]].map((_, i) => {
+			const internalObject: Record<string, T> = {};
+			for (const key of Object.keys(objectArrays)) {
+				internalObject[key] = objectArrays[key][i];
+			}
+			return internalObject;
+		});
+	}
+
+	// I hate complicated TypeScript types :(
+	type AdjustedHourlyForecast = Array<{
+		[K in keyof ForecastData["hourly"]]: ForecastData["hourly"][K][number];
+	}>;
+	function timeAdjustHourlyForecast(
+		hourlyForecast: ForecastData["hourly"],
+	): AdjustedHourlyForecast {
+		const indexOfNextTime = hourlyForecast.time.findIndex(
+			// biome-ignore lint/style/useTemplate: readability
+			(time) => new Date(time + "Z") > new Date(),
+		);
+		return convertObjectArraysToArrayOfObjects<string | number>(
+			hourlyForecast,
+		).slice(indexOfNextTime) as AdjustedHourlyForecast;
+	}
+
 	useEffect(() => {
 		// No fancy window blur possible on Linux
 		if (navigator.userAgent.includes("Linux")) {
@@ -119,6 +148,7 @@ function App() {
 	// TODO: Add error handling (maybe use ErrorBoundary)
 	// TODO: Add loading states
 	// TODO: Extract components
+	// TODO: Add hover tooltips for hourly weather time, temperature, and icon
 	return (
 		<div id="container">
 			<div id="inner-container">
@@ -171,50 +201,55 @@ function App() {
 									"Unknown Weather"}
 							</h3>
 							<div id="hourly-forecast-list">
-								{forecast?.hourly.time.map((time, index) => (
-									<div
-										key={time}
-										className="hourly-forecast-item"
-									>
-										<div>{formatDateTime(time)}</div>
-										{/* TODO: Either use realistic weather icon set or handle caching (or both) */}
-										<img
-											className="hourly-forecast-item-image"
-											src={
-												wmo_descriptions[
-													forecast.hourly
-														.weather_code[index]
-												]?.[
-													forecast.hourly.is_day[
-														index
-													] !== 0
-														? "day"
-														: "night"
-												]?.image || defaultWeatherIcon
-											}
-											alt={
-												wmo_descriptions[
-													forecast.hourly
-														.weather_code[index]
-												]?.[
-													forecast.hourly.is_day[
-														index
-													] !== 0
-														? "day"
-														: "night"
-												]?.description ||
-												"Unknown Weather"
-											}
-										/>
-										<div>
-											{formatTemperature(
-												forecast.hourly.temperature_2m[
-													index
-												],
-											)}
-										</div>
-									</div>
-								))}
+								{(forecast &&
+									timeAdjustHourlyForecast(forecast.hourly)
+										.slice(0, 24)
+										.map(
+											({
+												time,
+												is_day,
+												temperature_2m,
+												weather_code,
+											}) => (
+												<div
+													key={time}
+													className="hourly-forecast-item"
+												>
+													<div>
+														{formatDateTime(time)}
+													</div>
+													<img
+														className="hourly-forecast-item-image"
+														src={
+															wmo_descriptions[
+																weather_code
+															]?.[
+																is_day !== 0
+																	? "day"
+																	: "night"
+															]?.image ||
+															defaultWeatherIcon
+														}
+														alt={
+															wmo_descriptions[
+																weather_code
+															]?.[
+																is_day !== 0
+																	? "day"
+																	: "night"
+															]?.description ||
+															"Unknown Weather"
+														}
+													/>
+													<div>
+														{formatTemperature(
+															temperature_2m,
+														)}
+													</div>
+												</div>
+											),
+										)) ||
+									"Unknown Hourly Forecast"}
 							</div>
 						</section>
 					</div>
