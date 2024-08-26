@@ -92,10 +92,12 @@ export type WmoDescriptions = Record<
 	{
 		day: {
 			description: string;
+			includeSuffix: boolean;
 			image: string;
 		};
 		night: {
 			description: string;
+			includeSuffix: boolean;
 			image: string;
 		};
 	}
@@ -108,280 +110,336 @@ export const wmo_descriptions: WmoDescriptions = {
 	"0": {
 		day: {
 			description: "Sunny",
+			includeSuffix: true,
 			image: day0,
 		},
 		night: {
 			description: "Clear",
+			includeSuffix: true,
 			image: night0,
 		},
 	},
 	"1": {
 		day: {
 			description: "Mainly Sunny",
+			includeSuffix: true,
 			image: day0,
 		},
 		night: {
 			description: "Mainly Clear",
+			includeSuffix: true,
 			image: night0,
 		},
 	},
 	"2": {
 		day: {
 			description: "Partly Cloudy",
+			includeSuffix: true,
 			image: day2,
 		},
 		night: {
 			description: "Partly Cloudy",
+			includeSuffix: true,
 			image: night2,
 		},
 	},
 	"3": {
 		day: {
 			description: "Cloudy",
+			includeSuffix: true,
 			image: day3,
 		},
 		night: {
 			description: "Cloudy",
+			includeSuffix: true,
 			image: night3,
 		},
 	},
 	"45": {
 		day: {
 			description: "Foggy",
+			includeSuffix: true,
 			image: day45,
 		},
 		night: {
 			description: "Foggy",
+			includeSuffix: true,
 			image: night45,
 		},
 	},
 	"48": {
 		day: {
 			description: "Rime Fog",
+			includeSuffix: false,
 			image: day45,
 		},
 		night: {
 			description: "Rime Fog",
+			includeSuffix: false,
 			image: night45,
 		},
 	},
 	"51": {
 		day: {
 			description: "Light Drizzle",
+			includeSuffix: false,
 			image: day51,
 		},
 		night: {
 			description: "Light Drizzle",
+			includeSuffix: false,
 			image: night51,
 		},
 	},
 	"53": {
 		day: {
 			description: "Drizzle",
+			includeSuffix: false,
 			image: day51,
 		},
 		night: {
 			description: "Drizzle",
+			includeSuffix: false,
 			image: night51,
 		},
 	},
 	"55": {
 		day: {
 			description: "Heavy Drizzle",
+			includeSuffix: false,
 			image: day51,
 		},
 		night: {
 			description: "Heavy Drizzle",
+			includeSuffix: false,
 			image: night51,
 		},
 	},
 	"56": {
 		day: {
 			description: "Light Freezing Drizzle",
+			includeSuffix: false,
 			image: day51,
 		},
 		night: {
 			description: "Light Freezing Drizzle",
+			includeSuffix: false,
 			image: night51,
 		},
 	},
 	"57": {
 		day: {
 			description: "Freezing Drizzle",
+			includeSuffix: false,
 			image: day51,
 		},
 		night: {
 			description: "Freezing Drizzle",
+			includeSuffix: false,
 			image: night51,
 		},
 	},
 	"61": {
 		day: {
 			description: "Light Rain",
+			includeSuffix: false,
 			image: day63,
 		},
 		night: {
 			description: "Light Rain",
+			includeSuffix: false,
 			image: night63,
 		},
 	},
 	"63": {
 		day: {
 			description: "Rain",
+			includeSuffix: false,
 			image: day63,
 		},
 		night: {
 			description: "Rain",
+			includeSuffix: false,
 			image: night63,
 		},
 	},
 	"65": {
 		day: {
 			description: "Heavy Rain",
+			includeSuffix: false,
 			image: day63,
 		},
 		night: {
 			description: "Heavy Rain",
+			includeSuffix: false,
 			image: night63,
 		},
 	},
 	"66": {
 		day: {
 			description: "Light Freezing Rain",
+			includeSuffix: false,
 			image: day63,
 		},
 		night: {
 			description: "Light Freezing Rain",
+			includeSuffix: false,
 			image: night63,
 		},
 	},
 	"67": {
 		day: {
 			description: "Freezing Rain",
+			includeSuffix: false,
 			image: day63,
 		},
 		night: {
 			description: "Freezing Rain",
+			includeSuffix: false,
 			image: night63,
 		},
 	},
 	"71": {
 		day: {
 			description: "Light Snow",
+			includeSuffix: false,
 			image: day73,
 		},
 		night: {
 			description: "Light Snow",
+			includeSuffix: false,
 			image: night73,
 		},
 	},
 	"73": {
 		day: {
 			description: "Snow",
+			includeSuffix: false,
 			image: day73,
 		},
 		night: {
 			description: "Snow",
+			includeSuffix: false,
 			image: night73,
 		},
 	},
 	"75": {
 		day: {
 			description: "Heavy Snow",
+			includeSuffix: false,
 			image: day73,
 		},
 		night: {
 			description: "Heavy Snow",
+			includeSuffix: false,
 			image: night73,
 		},
 	},
 	"77": {
 		day: {
 			description: "Snow Grains",
+			includeSuffix: false,
 			image: day73,
 		},
 		night: {
 			description: "Snow Grains",
+			includeSuffix: false,
 			image: night73,
 		},
 	},
 	"80": {
 		day: {
 			description: "Light Showers",
+			includeSuffix: false,
 			image: day63,
 		},
 		night: {
 			description: "Light Showers",
+			includeSuffix: false,
 			image: night63,
 		},
 	},
 	"81": {
 		day: {
 			description: "Showers",
+			includeSuffix: false,
 			image: day63,
 		},
 		night: {
 			description: "Showers",
+			includeSuffix: false,
 			image: night63,
 		},
 	},
 	"82": {
 		day: {
 			description: "Heavy Showers",
+			includeSuffix: false,
 			image: day51,
 		},
 		night: {
 			description: "Heavy Showers",
+			includeSuffix: false,
 			image: night51,
 		},
 	},
 	"85": {
 		day: {
 			description: "Light Snow Showers",
+			includeSuffix: false,
 			image: day63,
 		},
 		night: {
 			description: "Light Snow Showers",
+			includeSuffix: false,
 			image: night63,
 		},
 	},
 	"86": {
 		day: {
 			description: "Snow Showers",
+			includeSuffix: false,
 			image: day85,
 		},
 		night: {
 			description: "Snow Showers",
+			includeSuffix: false,
 			image: night85,
 		},
 	},
 	"95": {
 		day: {
 			description: "Thunderstorm",
+			includeSuffix: false,
 			image: day95,
 		},
 		night: {
 			description: "Thunderstorm",
+			includeSuffix: false,
 			image: night95,
 		},
 	},
 	"96": {
 		day: {
 			description: "Light Thunderstorms With Hail",
+			includeSuffix: false,
 			image: day95,
 		},
 		night: {
 			description: "Light Thunderstorms With Hail",
+			includeSuffix: false,
 			image: night95,
 		},
 	},
 	"99": {
 		day: {
 			description: "Thunderstorm With Hail",
+			includeSuffix: false,
 			image: day95,
 		},
 		night: {
 			description: "Thunderstorm With Hail",
+			includeSuffix: false,
 			image: night95,
 		},
 	},

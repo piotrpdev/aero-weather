@@ -187,7 +187,7 @@ function App() {
 					<div id="blend">
 						<section id="hourly-forecast-container">
 							<h3 id="hourly-forecast-heading">
-								{/* TODO: Actually implement prediction here, handle 'Clear will continue...' */}
+								{/* TODO: Actually implement prediction here */}
 								{(forecast &&
 									`${
 										wmo_descriptions[
@@ -197,6 +197,14 @@ function App() {
 												? "day"
 												: "night"
 										]?.description || "Unknown Weather"
+									}${
+										wmo_descriptions[
+											forecast.current.weather_code
+										]?.[
+											forecast.current.is_day !== 0
+												? "day"
+												: "night"
+										]?.includeSuffix && " weather"
 									} will continue in the next hour.`) ||
 									"Unknown Weather"}
 							</h3>
