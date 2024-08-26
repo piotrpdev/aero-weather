@@ -186,7 +186,7 @@ function App() {
 				<main>
 					<div id="blend">
 						<section id="hourly-forecast-container">
-							<h3 id="hourly-forecast-heading">
+							<h4 id="hourly-forecast-heading">
 								{/* TODO: Actually implement prediction here */}
 								{(forecast &&
 									`${
@@ -207,7 +207,7 @@ function App() {
 										]?.includeSuffix && " weather"
 									} will continue in the next hour.`) ||
 									"Unknown Weather"}
-							</h3>
+							</h4>
 							<div id="hourly-forecast-list">
 								{(forecast &&
 									timeAdjustHourlyForecast(forecast.hourly)

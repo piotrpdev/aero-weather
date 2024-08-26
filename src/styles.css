@@ -1,16 +1,15 @@
 /* TODO: Make all values relative / make design responsive */
-/* TODO: Use custom local font */
 :root {
-	font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+	font-family: 'Roboto Flex Variable', Inter, Avenir, Helvetica, Arial, sans-serif;
 	font-size: 16px;
 	line-height: 24px;
-	font-weight: 400;
+	font-weight: 500;
 
-	font-synthesis: none;
+	/* font-synthesis: none;
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	-webkit-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%; */
 
 	/* --color: #222222; */
 	--color: #f6f6f6;
@@ -124,7 +123,11 @@ header #city-state {
 	display: flex;
 	flex-direction: row;
 	align-items: baseline;
-	gap: 12px;
+	gap: 8px;
+}
+
+header #city-state #city {
+	letter-spacing: 1.5px;
 }
 
 header #city,
@@ -187,9 +190,13 @@ main {
 	overflow-x: clip;
 	gap: 20px;
 	isolation: isolate;
+
+	mask: linear-gradient(to right, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%);
+	-webkit-mask: linear-gradient(to right, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%);
 }
 
 #hourly-forecast-heading {
+	font-weight: 200;
 	margin-top: 0;
 	margin-bottom: 24px;
 	mix-blend-mode: overlay;
@@ -200,6 +207,9 @@ main {
 	flex-direction: column;
     align-items: center;
 	min-width: fit-content;
+
+	font-size: 14px;
+    font-weight: 200;
 }
 
 .hourly-forecast-item-image {
