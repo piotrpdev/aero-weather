@@ -29,14 +29,22 @@ function App() {
 		return `${Math.round(temperature)}°C`;
 	};
 
-	const intlFormatter = new Intl.DateTimeFormat("en-US", {
+	const intlTimeFormatter = new Intl.DateTimeFormat("en-US", {
 		hour12: true,
 		hour: "numeric",
 	});
 	// https://stackoverflow.com/a/32252922/19020549
-	const formatDateTime = (datetime: string): string =>
+	const formatTime = (time: string): string =>
 		// biome-ignore lint/style/useTemplate: readability
-		intlFormatter.format(new Date(datetime + "Z"));
+		intlTimeFormatter.format(new Date(time + "Z"));
+
+	const intlDateFormatter = new Intl.DateTimeFormat("en-US", {
+		weekday: "short",
+	});
+
+	const formatDate = (date: string): string =>
+		// biome-ignore lint/style/useTemplate: readability
+		intlDateFormatter.format(new Date(date + "Z"));
 
 	// https://gist.github.com/thesofakillers/bcf39eaed428304ddc126ca8f12336f7
 	function convertObjectArraysToArrayOfObjects<T>(
@@ -66,6 +74,10 @@ function App() {
 			hourlyForecast,
 		).slice(indexOfNextTime) as AdjustedHourlyForecast;
 	}
+
+	type AdjustedDailyForecast = Array<{
+		[K in keyof ForecastData["daily"]]: ForecastData["daily"][K][number];
+	}>;
 
 	useEffect(() => {
 		// No fancy window blur possible on Linux
@@ -125,11 +137,15 @@ function App() {
 			);
 			forecastApiUrl.searchParams.set(
 				"current",
-				"temperature_2m,is_day,weather_code",
+				"temperature_2m,weather_code,is_day",
 			);
 			forecastApiUrl.searchParams.set(
 				"hourly",
 				"temperature_2m,weather_code,is_day",
+			);
+			forecastApiUrl.searchParams.set(
+				"daily",
+				"temperature_2m_max,temperature_2m_min,weather_code",
 			);
 			forecastApiUrl.searchParams.set("temperature_unit", "celsius");
 			forecastApiUrl.searchParams.set("timezone", "UTC");
@@ -184,83 +200,175 @@ function App() {
 					</h5>
 				</header>
 				<main>
-					<div id="blend">
-						<section id="hourly-forecast-container">
-							<h4 id="hourly-forecast-heading">
-								{/* TODO: Actually implement prediction here */}
-								{(forecast &&
-									`${
-										wmo_descriptions[
-											forecast.current.weather_code
-										]?.[
-											forecast.current.is_day !== 0
-												? "day"
-												: "night"
-										]?.description || "Unknown Weather"
-									}${
-										wmo_descriptions[
-											forecast.current.weather_code
-										]?.[
-											forecast.current.is_day !== 0
-												? "day"
-												: "night"
-										]?.includeSuffix && " weather"
-									} will continue in the next hour.`) ||
-									"Unknown Weather"}
-							</h4>
-							<div id="hourly-forecast-list">
-								{(forecast &&
-									timeAdjustHourlyForecast(forecast.hourly)
-										.slice(0, 24)
-										.map(
-											({
-												time,
-												is_day,
-												temperature_2m,
-												weather_code,
-											}) => (
-												<div
-													key={time}
-													className="hourly-forecast-item"
-												>
-													<div>
-														{formatDateTime(time)}
-													</div>
-													<img
-														className="hourly-forecast-item-image"
-														src={
-															wmo_descriptions[
-																weather_code
-															]?.[
-																is_day !== 0
-																	? "day"
-																	: "night"
-															]?.image ||
-															defaultWeatherIcon
-														}
-														alt={
-															wmo_descriptions[
-																weather_code
-															]?.[
-																is_day !== 0
-																	? "day"
-																	: "night"
-															]?.description ||
-															"Unknown Weather"
-														}
-													/>
-													<div>
-														{formatTemperature(
-															temperature_2m,
-														)}
-													</div>
+					<section
+						id="hourly-forecast-container"
+						className="forecast-container"
+					>
+						<h4
+							id="hourly-forecast-heading"
+							className="forecast-heading"
+						>
+							{/* TODO: Actually implement prediction here */}
+							{(forecast &&
+								`${
+									wmo_descriptions[
+										forecast.current.weather_code
+									]?.[
+										forecast.current.is_day !== 0
+											? "day"
+											: "night"
+									]?.description || "Unknown Weather"
+								}${
+									wmo_descriptions[
+										forecast.current.weather_code
+									]?.[
+										forecast.current.is_day !== 0
+											? "day"
+											: "night"
+									]?.includeSuffix
+										? " weather"
+										: ""
+								} will continue in the next hour.`) ||
+								"Unknown Weather"}
+						</h4>
+						<div id="hourly-forecast-list">
+							{(forecast &&
+								timeAdjustHourlyForecast(forecast.hourly)
+									.slice(0, 36)
+									.map(
+										({
+											time,
+											is_day,
+											temperature_2m,
+											weather_code,
+										}) => (
+											<div
+												key={time}
+												className="hourly-forecast-item forecast-item"
+											>
+												<div>{formatTime(time)}</div>
+												<img
+													className="forecast-image"
+													src={
+														wmo_descriptions[
+															weather_code
+														]?.[
+															is_day !== 0
+																? "day"
+																: "night"
+														]?.image ||
+														defaultWeatherIcon
+													}
+													alt={
+														wmo_descriptions[
+															weather_code
+														]?.[
+															is_day !== 0
+																? "day"
+																: "night"
+														]?.description ||
+														"Unknown Weather"
+													}
+												/>
+												<div>
+													{formatTemperature(
+														temperature_2m,
+													)}
 												</div>
-											),
-										)) ||
-									"Unknown Hourly Forecast"}
+											</div>
+										),
+									)) ||
+								"Unknown Hourly Forecast"}
+						</div>
+					</section>
+					<section id="week-air-wind-container">
+						<div
+							id="week-forecast-container"
+							className="forecast-container"
+						>
+							<h4
+								id="week-forecast-heading"
+								className="forecast-heading"
+							>
+								Forecast
+							</h4>
+							<div id="week-forecast-list">
+								{forecast &&
+									(
+										convertObjectArraysToArrayOfObjects<
+											string | number
+										>(
+											forecast.daily,
+										) as AdjustedDailyForecast
+									).map(
+										({
+											time,
+											temperature_2m_max,
+											temperature_2m_min,
+											weather_code,
+										}) => (
+											<div
+												key={time}
+												className="week-forecast-item forecast-item"
+											>
+												<div>{formatDate(time)}</div>
+												<img
+													className="forecast-image"
+													src={
+														wmo_descriptions[
+															weather_code
+														]?.[
+															forecast.current
+																.is_day !== 0
+																? "day"
+																: "night"
+														]?.image ||
+														defaultWeatherIcon
+													}
+													alt={
+														wmo_descriptions[
+															weather_code
+														]?.[
+															forecast.current
+																.is_day !== 0
+																? "day"
+																: "night"
+														]?.description ||
+														"Unknown Weather"
+													}
+												/>
+												<div>
+													{formatTemperature(
+														temperature_2m_min,
+													)}
+												</div>
+												<div>
+													{formatTemperature(
+														temperature_2m_max,
+													)}
+												</div>
+											</div>
+										),
+									)}
 							</div>
-						</section>
-					</div>
+						</div>
+						<div className="forecast-container">
+							<h4
+								id="air-forecast-heading"
+								className="forecast-heading"
+							>
+								Air Quality
+							</h4>
+						</div>
+						<div className="forecast-container">
+							<h4
+								id="wind-forecast-heading"
+								className="forecast-heading"
+							>
+								Wind
+							</h4>
+						</div>
+					</section>
 				</main>
 			</div>
 		</div>

@@ -91,6 +91,9 @@ div[data-tauri-decorum-tb] {
 	height: 100%;
 	display: flex;
 	flex-direction: column;
+
+	overflow-x: clip;
+    overflow-y: auto;
 }
 
 #inner-container {
@@ -166,22 +169,52 @@ main:before {
 }
 
 main {
-	/* backdrop-filter: blur(15px); */
 	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+	/* backdrop-filter: blur(15px); */
 	/* mix-blend-mode: overlay; */
+}
+
+.forecast-container {
+	position: relative;
+	border-radius: 5px;
+	padding: 20px;
+}
+
+.forecast-container:after {
+	content: ' ';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+	border-radius: 5px;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.forecast-heading {
+	font-weight: 200;
+	margin-top: 0;
+	margin-bottom: 24px;
+	mix-blend-mode: overlay;
+}
+
+.forecast-item {
+	font-size: 12px;
+    font-weight: 200;
+}
+
+.forecast-image {
+	width: 40px;
 }
 
 #hourly-forecast-container {
 	display: flex;
 	flex-direction: column;
-	/* background-color: #363f518f; */
-	border-radius: 5px;
-	padding: 20px;
 }
-
-/* #hourly-forecast-container :not(#hourly-forecast-list, #hourly-forecast-list *) {
-	opacity: 0.2;
-} */
 
 #hourly-forecast-list {
 	display: flex;
@@ -195,25 +228,52 @@ main {
 	-webkit-mask: linear-gradient(to right, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%);
 }
 
-#hourly-forecast-heading {
-	font-weight: 200;
-	margin-top: 0;
-	margin-bottom: 24px;
-	mix-blend-mode: overlay;
-}
-
 .hourly-forecast-item {
 	display: flex;
 	flex-direction: column;
     align-items: center;
 	min-width: fit-content;
-
-	font-size: 14px;
-    font-weight: 200;
 }
 
-.hourly-forecast-item-image {
-	width: 50px;
+#week-air-wind-container {
+	display: flex;
+	flex-direction: row;
+	gap: 20px;
+}
+
+#week-air-wind-container > :not(:nth-child(2)) {
+	flex: 1;
+}
+
+#week-air-wind-container > :nth-child(2) {
+	flex: 2;
+}
+
+#week-forecast-list {
+	display: flex;
+	flex-direction: column;
+	gap: 0px;
+	isolation: isolate;
+}
+
+.week-forecast-item {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 12px;
+}
+
+.week-forecast-item > * {
+	/* WARNING: Changing this can resize the image */
+	min-width: 30px;
+}
+
+.week-forecast-item > :nth-child(3) {
+	color: hsl(0, 0%, 70%);
+}
+
+.week-forecast-item > :not(:first-child) {
+	text-align: center;
 }
 
 /* @media (prefers-color-scheme: dark) {
