@@ -104,11 +104,13 @@ export type WmoDescriptions = Record<
 			description: string;
 			includeSuffix: boolean;
 			image: string;
+			cssClass: string;
 		};
 		night: {
 			description: string;
 			includeSuffix: boolean;
 			image: string;
+			cssClass: string;
 		};
 	}
 >;
@@ -122,11 +124,13 @@ export const wmo_descriptions: WmoDescriptions = {
 			description: "Sunny",
 			includeSuffix: true,
 			image: day0,
+			cssClass: "bg-sunny",
 		},
 		night: {
 			description: "Clear",
 			includeSuffix: true,
 			image: night0,
+			cssClass: "bg-sunny",
 		},
 	},
 	"1": {
@@ -134,11 +138,13 @@ export const wmo_descriptions: WmoDescriptions = {
 			description: "Mainly Sunny",
 			includeSuffix: true,
 			image: day0,
+			cssClass: "bg-sunny",
 		},
 		night: {
 			description: "Mainly Clear",
 			includeSuffix: true,
 			image: night0,
+			cssClass: "bg-sunny",
 		},
 	},
 	"2": {
@@ -146,11 +152,13 @@ export const wmo_descriptions: WmoDescriptions = {
 			description: "Partly Cloudy",
 			includeSuffix: true,
 			image: day2,
+			cssClass: "bg-cloudy",
 		},
 		night: {
 			description: "Partly Cloudy",
 			includeSuffix: true,
 			image: night2,
+			cssClass: "bg-cloudy",
 		},
 	},
 	"3": {
@@ -158,11 +166,13 @@ export const wmo_descriptions: WmoDescriptions = {
 			description: "Cloudy",
 			includeSuffix: true,
 			image: day3,
+			cssClass: "bg-cloudy",
 		},
 		night: {
 			description: "Cloudy",
 			includeSuffix: true,
 			image: night3,
+			cssClass: "bg-cloudy",
 		},
 	},
 	"45": {
@@ -170,11 +180,13 @@ export const wmo_descriptions: WmoDescriptions = {
 			description: "Foggy",
 			includeSuffix: true,
 			image: day45,
+			cssClass: "bg-foggy",
 		},
 		night: {
 			description: "Foggy",
 			includeSuffix: true,
 			image: night45,
+			cssClass: "bg-foggy",
 		},
 	},
 	"48": {
@@ -182,11 +194,13 @@ export const wmo_descriptions: WmoDescriptions = {
 			description: "Rime Fog",
 			includeSuffix: false,
 			image: day45,
+			cssClass: "bg-foggy",
 		},
 		night: {
 			description: "Rime Fog",
 			includeSuffix: false,
 			image: night45,
+			cssClass: "bg-foggy",
 		},
 	},
 	"51": {
@@ -194,11 +208,13 @@ export const wmo_descriptions: WmoDescriptions = {
 			description: "Light Drizzle",
 			includeSuffix: false,
 			image: day51,
+			cssClass: "bg-drizzle",
 		},
 		night: {
 			description: "Light Drizzle",
 			includeSuffix: false,
 			image: night51,
+			cssClass: "bg-drizzle",
 		},
 	},
 	"53": {
@@ -206,11 +222,13 @@ export const wmo_descriptions: WmoDescriptions = {
 			description: "Drizzle",
 			includeSuffix: false,
 			image: day51,
+			cssClass: "bg-drizzle",
 		},
 		night: {
 			description: "Drizzle",
 			includeSuffix: false,
 			image: night51,
+			cssClass: "bg-drizzle",
 		},
 	},
 	"55": {
@@ -218,11 +236,13 @@ export const wmo_descriptions: WmoDescriptions = {
 			description: "Heavy Drizzle",
 			includeSuffix: false,
 			image: day51,
+			cssClass: "bg-drizzle",
 		},
 		night: {
 			description: "Heavy Drizzle",
 			includeSuffix: false,
 			image: night51,
+			cssClass: "bg-drizzle",
 		},
 	},
 	"56": {
@@ -230,11 +250,13 @@ export const wmo_descriptions: WmoDescriptions = {
 			description: "Light Freezing Drizzle",
 			includeSuffix: false,
 			image: day51,
+			cssClass: "bg-drizzle",
 		},
 		night: {
 			description: "Light Freezing Drizzle",
 			includeSuffix: false,
 			image: night51,
+			cssClass: "bg-drizzle",
 		},
 	},
 	"57": {
@@ -242,11 +264,13 @@ export const wmo_descriptions: WmoDescriptions = {
 			description: "Freezing Drizzle",
 			includeSuffix: false,
 			image: day51,
+			cssClass: "bg-drizzle",
 		},
 		night: {
 			description: "Freezing Drizzle",
 			includeSuffix: false,
 			image: night51,
+			cssClass: "bg-drizzle",
 		},
 	},
 	"61": {
@@ -254,11 +278,13 @@ export const wmo_descriptions: WmoDescriptions = {
 			description: "Light Rain",
 			includeSuffix: false,
 			image: day63,
+			cssClass: "bg-drizzle",
 		},
 		night: {
 			description: "Light Rain",
 			includeSuffix: false,
 			image: night63,
+			cssClass: "bg-drizzle",
 		},
 	},
 	"63": {
@@ -266,11 +292,13 @@ export const wmo_descriptions: WmoDescriptions = {
 			description: "Rain",
 			includeSuffix: false,
 			image: day63,
+			cssClass: "bg-drizzle",
 		},
 		night: {
 			description: "Rain",
 			includeSuffix: false,
 			image: night63,
+			cssClass: "bg-drizzle",
 		},
 	},
 	"65": {
@@ -278,11 +306,13 @@ export const wmo_descriptions: WmoDescriptions = {
 			description: "Heavy Rain",
 			includeSuffix: false,
 			image: day63,
+			cssClass: "bg-drizzle",
 		},
 		night: {
 			description: "Heavy Rain",
 			includeSuffix: false,
 			image: night63,
+			cssClass: "bg-drizzle",
 		},
 	},
 	"66": {
@@ -290,11 +320,13 @@ export const wmo_descriptions: WmoDescriptions = {
 			description: "Light Freezing Rain",
 			includeSuffix: false,
 			image: day63,
+			cssClass: "bg-drizzle",
 		},
 		night: {
 			description: "Light Freezing Rain",
 			includeSuffix: false,
 			image: night63,
+			cssClass: "bg-drizzle",
 		},
 	},
 	"67": {
@@ -302,11 +334,13 @@ export const wmo_descriptions: WmoDescriptions = {
 			description: "Freezing Rain",
 			includeSuffix: false,
 			image: day63,
+			cssClass: "bg-drizzle",
 		},
 		night: {
 			description: "Freezing Rain",
 			includeSuffix: false,
 			image: night63,
+			cssClass: "bg-drizzle",
 		},
 	},
 	"71": {
@@ -314,11 +348,13 @@ export const wmo_descriptions: WmoDescriptions = {
 			description: "Light Snow",
 			includeSuffix: false,
 			image: day73,
+			cssClass: "bg-snow",
 		},
 		night: {
 			description: "Light Snow",
 			includeSuffix: false,
 			image: night73,
+			cssClass: "bg-snow",
 		},
 	},
 	"73": {
@@ -326,11 +362,13 @@ export const wmo_descriptions: WmoDescriptions = {
 			description: "Snow",
 			includeSuffix: false,
 			image: day73,
+			cssClass: "bg-snow",
 		},
 		night: {
 			description: "Snow",
 			includeSuffix: false,
 			image: night73,
+			cssClass: "bg-snow",
 		},
 	},
 	"75": {
@@ -338,11 +376,13 @@ export const wmo_descriptions: WmoDescriptions = {
 			description: "Heavy Snow",
 			includeSuffix: false,
 			image: day73,
+			cssClass: "bg-snow",
 		},
 		night: {
 			description: "Heavy Snow",
 			includeSuffix: false,
 			image: night73,
+			cssClass: "bg-snow",
 		},
 	},
 	"77": {
@@ -350,11 +390,13 @@ export const wmo_descriptions: WmoDescriptions = {
 			description: "Snow Grains",
 			includeSuffix: false,
 			image: day73,
+			cssClass: "bg-snow",
 		},
 		night: {
 			description: "Snow Grains",
 			includeSuffix: false,
 			image: night73,
+			cssClass: "bg-snow",
 		},
 	},
 	"80": {
@@ -362,11 +404,13 @@ export const wmo_descriptions: WmoDescriptions = {
 			description: "Light Showers",
 			includeSuffix: false,
 			image: day63,
+			cssClass: "bg-drizzle",
 		},
 		night: {
 			description: "Light Showers",
 			includeSuffix: false,
 			image: night63,
+			cssClass: "bg-drizzle",
 		},
 	},
 	"81": {
@@ -374,11 +418,13 @@ export const wmo_descriptions: WmoDescriptions = {
 			description: "Showers",
 			includeSuffix: false,
 			image: day63,
+			cssClass: "bg-drizzle",
 		},
 		night: {
 			description: "Showers",
 			includeSuffix: false,
 			image: night63,
+			cssClass: "bg-drizzle",
 		},
 	},
 	"82": {
@@ -386,11 +432,13 @@ export const wmo_descriptions: WmoDescriptions = {
 			description: "Heavy Showers",
 			includeSuffix: false,
 			image: day51,
+			cssClass: "bg-drizzle",
 		},
 		night: {
 			description: "Heavy Showers",
 			includeSuffix: false,
 			image: night51,
+			cssClass: "bg-drizzle",
 		},
 	},
 	"85": {
@@ -398,11 +446,13 @@ export const wmo_descriptions: WmoDescriptions = {
 			description: "Light Snow Showers",
 			includeSuffix: false,
 			image: day63,
+			cssClass: "bg-snow",
 		},
 		night: {
 			description: "Light Snow Showers",
 			includeSuffix: false,
 			image: night63,
+			cssClass: "bg-snow",
 		},
 	},
 	"86": {
@@ -410,11 +460,13 @@ export const wmo_descriptions: WmoDescriptions = {
 			description: "Snow Showers",
 			includeSuffix: false,
 			image: day85,
+			cssClass: "bg-snow",
 		},
 		night: {
 			description: "Snow Showers",
 			includeSuffix: false,
 			image: night85,
+			cssClass: "bg-snow",
 		},
 	},
 	"95": {
@@ -422,11 +474,13 @@ export const wmo_descriptions: WmoDescriptions = {
 			description: "Thunderstorm",
 			includeSuffix: false,
 			image: day95,
+			cssClass: "bg-thunderstorm",
 		},
 		night: {
 			description: "Thunderstorm",
 			includeSuffix: false,
 			image: night95,
+			cssClass: "bg-thunderstorm",
 		},
 	},
 	"96": {
@@ -434,11 +488,13 @@ export const wmo_descriptions: WmoDescriptions = {
 			description: "Light Thunderstorms With Hail",
 			includeSuffix: false,
 			image: day95,
+			cssClass: "bg-thunderstorm",
 		},
 		night: {
 			description: "Light Thunderstorms With Hail",
 			includeSuffix: false,
 			image: night95,
+			cssClass: "bg-thunderstorm",
 		},
 	},
 	"99": {
@@ -446,11 +502,13 @@ export const wmo_descriptions: WmoDescriptions = {
 			description: "Thunderstorm With Hail",
 			includeSuffix: false,
 			image: day95,
+			cssClass: "bg-thunderstorm",
 		},
 		night: {
 			description: "Thunderstorm With Hail",
 			includeSuffix: false,
 			image: night95,
+			cssClass: "bg-thunderstorm",
 		},
 	},
 };

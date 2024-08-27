@@ -1,4 +1,5 @@
 /* TODO: Make all values relative / make design responsive */
+/* TODO: Make scrollbar semi-transparent to match dynamic background */
 :root {
 	font-family: 'Roboto Flex Variable', Inter, Avenir, Helvetica, Arial, sans-serif;
 	font-size: 16px;
@@ -11,6 +12,7 @@
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-text-size-adjust: 100%; */
 
+	color-scheme: dark;
 	/* --color: #222222; */
 	--color: #f6f6f6;
 	/* --background: linear-gradient(180deg, #b0d0d6 0%, #528e93 100%); */
@@ -28,6 +30,8 @@
 	--tb-btn-bg-color: #0f0f0f98;
 	--tb-btn-bg-color-hover: rgba(255, 255, 255, 0.066);
 	--tb-btn-bg-color-active: #0f0f0f69;
+
+	text-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
 }
 
 #root {
@@ -86,7 +90,6 @@ div[data-tauri-decorum-tb] {
 }
 
 #container {
-	background-image: linear-gradient(to bottom, #060710, transparent 40%), url(./assets/thunderstorm.jpg);
 	background-size: cover;
 	height: 100%;
 	display: flex;
@@ -94,6 +97,44 @@ div[data-tauri-decorum-tb] {
 
 	overflow-x: clip;
     overflow-y: auto;
+}
+
+#before-inner-container {
+	/* #060710 is closer to 1000kilobyte's design, but changing opacity work better across multiple backgrounds */
+	background: linear-gradient(to bottom, hsl(233.33deg 42.86% 4.12% / 80%), transparent 40%);
+}
+
+/* TODO: Add backgrounds for different weather */
+/* TODO: Compress backgrounds to best format */
+/* TODO: Add image transitions, need to crop all pictures to same size/aspect ratio first */
+.bg-thunderstorm {
+	/* 1000kilobyte: https://x.com/1000kilobytes/status/1825540285050605936 */
+	background-image: url(./assets/backgrounds/thunderstorm.jpg);
+}
+
+.bg-sunny {
+	/* Johny Goerend: https://unsplash.com/photos/trees-on-green-grass-field-ou-GkKJm3fc */
+	background-image: url(./assets/backgrounds/sunny.jpg);
+}
+
+.bg-foggy {
+	/* Eric Muhr: https://unsplash.com/photos/forest-covered-with-fogs-Fs-bcmsV-hA */
+	background-image: url(./assets/backgrounds/foggy.jpg);
+}
+
+.bg-cloudy {
+	/* Foad Roshan: https://unsplash.com/photos/a-cloudy-sky-with-pink-and-blue-clouds-iZcsb4JLNSA */
+	background-image: url(./assets/backgrounds/cloudy.jpg);
+}
+
+.bg-drizzle {
+	/* Alexey Golubev: https://unsplash.com/photos/a-tree-branch-with-green-leaves-and-water-drops-t8y8INbt7hI */
+	background-image: url(./assets/backgrounds/drizzle.jpg);
+}
+
+.bg-snow {
+	/* NOAA: https://unsplash.com/photos/birds-eye-view-of-snow-covered-mountain-eMfAKUs2sIY */
+	background-image: url(./assets/backgrounds/snow.jpg);
 }
 
 #inner-container {
@@ -200,6 +241,7 @@ main {
 	margin-top: 0;
 	margin-bottom: 24px;
 	mix-blend-mode: overlay;
+	text-shadow: 0 0 0px white;
 }
 
 .forecast-item {
@@ -269,20 +311,10 @@ main {
 }
 
 .week-forecast-item > :nth-child(3) {
-	color: hsl(0, 0%, 70%);
+	/* 70% is closer to original design */
+	color: hsl(0, 0%, 80%);
 }
 
 .week-forecast-item > :not(:first-child) {
 	text-align: center;
 }
-
-/* @media (prefers-color-scheme: dark) {
-	:root {
-		--color: #f6f6f6;
-		--background: linear-gradient(180deg, #350042 0%, #1f003b 100%);
-		--tb-btn-color: #ffffff;
-		--tb-btn-bg-color: #0f0f0f98;
-		--tb-btn-bg-color-hover: rgba(255, 255, 255, 0.066);
-		--tb-btn-bg-color-active: #0f0f0f69;
-	}
-} */

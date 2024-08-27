@@ -159,217 +159,233 @@ function App() {
 		}
 	}, [coords?.longitude]);
 
-	// TODO: Add OSM and Open-Meteo attribution
+	// TODO: Add OSM, Open-Meteo, personal, design, license, etc. attribution
 	// TODO: Maybe user SWR/React Query for data fetching
 	// TODO: Add error handling (maybe use ErrorBoundary)
-	// TODO: Add loading states
+	// TODO: Add loading states, maybe use skeleton loaders for values
 	// TODO: Extract components
 	// TODO: Add hover tooltips for hourly weather time, temperature, and icon
+	// TODO: Optimize/reduce re-renders
 	return (
-		<div id="container">
-			<div id="inner-container">
-				<header>
-					<h5 id="my-location">My Location</h5>
-					<div id="city-state-temperature">
-						<div id="city-state">
-							<h1 id="city">
-								{geolocation?.address.city ||
-									geolocation?.address.county ||
-									"Unknown City/County"}
+		// TODO: Maybe add some weather-agnostic default background
+		<div
+			id="container"
+			className={`${
+				forecast &&
+				wmo_descriptions[forecast.current.weather_code]?.[
+					forecast.current.is_day !== 0 ? "day" : "night"
+				]?.cssClass
+			}`}
+		>
+			<div id="before-inner-container">
+				<div id="inner-container">
+					<header>
+						<h5 id="my-location">My Location</h5>
+						<div id="city-state-temperature">
+							<div id="city-state">
+								<h1 id="city">
+									{geolocation?.address.city ||
+										geolocation?.address.county}
+								</h1>
+								<h3 id="state">
+									{geolocation?.address.country}
+								</h3>
+							</div>
+							{/* TODO: Maybe let user click on this to change temperature units */}
+							<h1 id="temperature">
+								{forecast &&
+									formatTemperature(
+										forecast.current.temperature_2m,
+									)}
 							</h1>
-							<h3 id="state">
-								{geolocation?.address.country ||
-									"Unknown Country"}
-							</h3>
 						</div>
-						{/* TODO: Maybe let user click on this to change temperature units */}
-						<h1 id="temperature">
-							{(forecast &&
-								formatTemperature(
-									forecast.current.temperature_2m,
-								)) ||
-								"Unknown Temperature"}
-						</h1>
-					</div>
-					<h5 id="type">
-						{(forecast &&
-							wmo_descriptions[forecast.current.weather_code]?.[
-								forecast.current.is_day !== 0 ? "day" : "night"
-							]?.description) ||
-							"Unknown Weather"}
-					</h5>
-				</header>
-				<main>
-					<section
-						id="hourly-forecast-container"
-						className="forecast-container"
-					>
-						<h4
-							id="hourly-forecast-heading"
-							className="forecast-heading"
-						>
-							{/* TODO: Actually implement prediction here */}
-							{(forecast &&
-								`${
-									wmo_descriptions[
-										forecast.current.weather_code
-									]?.[
-										forecast.current.is_day !== 0
-											? "day"
-											: "night"
-									]?.description || "Unknown Weather"
-								}${
-									wmo_descriptions[
-										forecast.current.weather_code
-									]?.[
-										forecast.current.is_day !== 0
-											? "day"
-											: "night"
-									]?.includeSuffix
-										? " weather"
-										: ""
-								} will continue in the next hour.`) ||
-								"Unknown Weather"}
-						</h4>
-						<div id="hourly-forecast-list">
-							{(forecast &&
-								timeAdjustHourlyForecast(forecast.hourly)
-									.slice(0, 36)
-									.map(
-										({
-											time,
-											is_day,
-											temperature_2m,
-											weather_code,
-										}) => (
-											<div
-												key={time}
-												className="hourly-forecast-item forecast-item"
-											>
-												<div>{formatTime(time)}</div>
-												<img
-													className="forecast-image"
-													src={
-														wmo_descriptions[
-															weather_code
-														]?.[
-															is_day !== 0
-																? "day"
-																: "night"
-														]?.image ||
-														defaultWeatherIcon
-													}
-													alt={
-														wmo_descriptions[
-															weather_code
-														]?.[
-															is_day !== 0
-																? "day"
-																: "night"
-														]?.description ||
-														"Unknown Weather"
-													}
-												/>
-												<div>
-													{formatTemperature(
-														temperature_2m,
-													)}
-												</div>
-											</div>
-										),
-									)) ||
-								"Unknown Hourly Forecast"}
-						</div>
-					</section>
-					<section id="week-air-wind-container">
-						<div
-							id="week-forecast-container"
+						<h5 id="type">
+							{forecast &&
+								wmo_descriptions[
+									forecast.current.weather_code
+								]?.[
+									forecast.current.is_day !== 0
+										? "day"
+										: "night"
+								]?.description}
+						</h5>
+					</header>
+					<main>
+						<section
+							id="hourly-forecast-container"
 							className="forecast-container"
 						>
 							<h4
-								id="week-forecast-heading"
+								id="hourly-forecast-heading"
 								className="forecast-heading"
 							>
-								Forecast
-							</h4>
-							<div id="week-forecast-list">
+								{/* TODO: Actually implement prediction here */}
 								{forecast &&
-									(
-										convertObjectArraysToArrayOfObjects<
-											string | number
-										>(
-											forecast.daily,
-										) as AdjustedDailyForecast
-									).map(
-										({
-											time,
-											temperature_2m_max,
-											temperature_2m_min,
-											weather_code,
-										}) => (
-											<div
-												key={time}
-												className="week-forecast-item forecast-item"
-											>
-												<div>{formatDate(time)}</div>
-												<img
-													className="forecast-image"
-													src={
-														wmo_descriptions[
-															weather_code
-														]?.[
-															forecast.current
-																.is_day !== 0
-																? "day"
-																: "night"
-														]?.image ||
-														defaultWeatherIcon
-													}
-													alt={
-														wmo_descriptions[
-															weather_code
-														]?.[
-															forecast.current
-																.is_day !== 0
-																? "day"
-																: "night"
-														]?.description ||
-														"Unknown Weather"
-													}
-												/>
-												<div>
-													{formatTemperature(
-														temperature_2m_min,
-													)}
+									`${
+										wmo_descriptions[
+											forecast.current.weather_code
+										]?.[
+											forecast.current.is_day !== 0
+												? "day"
+												: "night"
+										]?.description
+									}${
+										wmo_descriptions[
+											forecast.current.weather_code
+										]?.[
+											forecast.current.is_day !== 0
+												? "day"
+												: "night"
+										]?.includeSuffix
+											? " weather"
+											: ""
+									} will continue in the next hour.`}
+							</h4>
+							<div id="hourly-forecast-list">
+								{forecast &&
+									timeAdjustHourlyForecast(forecast.hourly)
+										.slice(0, 36)
+										.map(
+											({
+												time,
+												is_day,
+												temperature_2m,
+												weather_code,
+											}) => (
+												<div
+													key={time}
+													className="hourly-forecast-item forecast-item"
+												>
+													<div>
+														{formatTime(time)}
+													</div>
+													<img
+														className="forecast-image"
+														src={
+															wmo_descriptions[
+																weather_code
+															]?.[
+																is_day !== 0
+																	? "day"
+																	: "night"
+															]?.image ||
+															defaultWeatherIcon
+														}
+														alt={
+															wmo_descriptions[
+																weather_code
+															]?.[
+																is_day !== 0
+																	? "day"
+																	: "night"
+															]?.description ||
+															"Unknown Weather"
+														}
+													/>
+													<div>
+														{formatTemperature(
+															temperature_2m,
+														)}
+													</div>
 												</div>
-												<div>
-													{formatTemperature(
-														temperature_2m_max,
-													)}
-												</div>
-											</div>
-										),
-									)}
+											),
+										)}
 							</div>
-						</div>
-						<div className="forecast-container">
-							<h4
-								id="air-forecast-heading"
-								className="forecast-heading"
+						</section>
+						<section id="week-air-wind-container">
+							<div
+								id="week-forecast-container"
+								className="forecast-container"
 							>
-								Air Quality
-							</h4>
-						</div>
-						<div className="forecast-container">
-							<h4
-								id="wind-forecast-heading"
-								className="forecast-heading"
-							>
-								Wind
-							</h4>
-						</div>
-					</section>
-				</main>
+								<h4
+									id="week-forecast-heading"
+									className="forecast-heading"
+								>
+									{forecast && "Forecast"}
+								</h4>
+								<div id="week-forecast-list">
+									{forecast &&
+										(
+											convertObjectArraysToArrayOfObjects<
+												string | number
+											>(
+												forecast.daily,
+											) as AdjustedDailyForecast
+										).map(
+											({
+												time,
+												temperature_2m_max,
+												temperature_2m_min,
+												weather_code,
+											}) => (
+												<div
+													key={time}
+													className="week-forecast-item forecast-item"
+												>
+													<div>
+														{formatDate(time)}
+													</div>
+													<img
+														className="forecast-image"
+														src={
+															wmo_descriptions[
+																weather_code
+															]?.[
+																forecast.current
+																	.is_day !==
+																0
+																	? "day"
+																	: "night"
+															]?.image ||
+															defaultWeatherIcon
+														}
+														alt={
+															wmo_descriptions[
+																weather_code
+															]?.[
+																forecast.current
+																	.is_day !==
+																0
+																	? "day"
+																	: "night"
+															]?.description ||
+															"Unknown Weather"
+														}
+													/>
+													<div>
+														{formatTemperature(
+															temperature_2m_min,
+														)}
+													</div>
+													<div>
+														{formatTemperature(
+															temperature_2m_max,
+														)}
+													</div>
+												</div>
+											),
+										)}
+								</div>
+							</div>
+							<div className="forecast-container">
+								<h4
+									id="air-forecast-heading"
+									className="forecast-heading"
+								>
+									{forecast && "Air Quality"}
+								</h4>
+							</div>
+							<div className="forecast-container">
+								<h4
+									id="wind-forecast-heading"
+									className="forecast-heading"
+								>
+									{forecast && "Wind"}
+								</h4>
+							</div>
+						</section>
+					</main>
+				</div>
 			</div>
 		</div>
 	);
