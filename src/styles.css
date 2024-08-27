@@ -108,32 +108,26 @@ div[data-tauri-decorum-tb] {
 /* TODO: Compress backgrounds to best format */
 /* TODO: Add image transitions, need to crop all pictures to same size/aspect ratio first */
 .bg-thunderstorm {
-	/* 1000kilobyte: https://x.com/1000kilobytes/status/1825540285050605936 */
 	background-image: url(./assets/backgrounds/thunderstorm.jpg);
 }
 
 .bg-sunny {
-	/* Johny Goerend: https://unsplash.com/photos/trees-on-green-grass-field-ou-GkKJm3fc */
 	background-image: url(./assets/backgrounds/sunny.jpg);
 }
 
 .bg-foggy {
-	/* Eric Muhr: https://unsplash.com/photos/forest-covered-with-fogs-Fs-bcmsV-hA */
 	background-image: url(./assets/backgrounds/foggy.jpg);
 }
 
 .bg-cloudy {
-	/* Foad Roshan: https://unsplash.com/photos/a-cloudy-sky-with-pink-and-blue-clouds-iZcsb4JLNSA */
 	background-image: url(./assets/backgrounds/cloudy.jpg);
 }
 
 .bg-drizzle {
-	/* Alexey Golubev: https://unsplash.com/photos/a-tree-branch-with-green-leaves-and-water-drops-t8y8INbt7hI */
 	background-image: url(./assets/backgrounds/drizzle.jpg);
 }
 
 .bg-snow {
-	/* NOAA: https://unsplash.com/photos/birds-eye-view-of-snow-covered-mountain-eMfAKUs2sIY */
 	background-image: url(./assets/backgrounds/snow.jpg);
 }
 

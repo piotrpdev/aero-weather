@@ -3,7 +3,7 @@
 Weather app with a [Windows Aero][aero] inspired design.
 
 Design is
-["attempt at designing the weather app"](https://x.com/1000kilobytes/status/1825361813774708910/)
+["attempt at designing the weather app"][design]
 by [kilobyte (@1000kilobytes)](https://x.com/1000kilobytes).
 
 ## Development
@@ -34,6 +34,7 @@ Made using the following resources:
 | [Nominatim Reverse Geocoding API][geo]    | [ODbL][geo-license][^1] (data)    |
 | [Open-Meteo Forecast API][meteo]          | [CC BY 4.0][meteo-license] (data) |
 | [Realll Weather Icons][realll]            | ?                                 |
+| Weather Backgrounds                       | [Unsplash][unsplash]              |
 
 [^1]: OpenStreetMap® is open data, licensed under the
 [Open Data Commons Open Database License (ODbL)][geo-license] by the
@@ -52,3 +53,4 @@ Made using the following resources:
 [decorum]: https://github.com/clearlysid/tauri-plugin-decorum
 [decorum-license]: https://github.com/clearlysid/tauri-plugin-decorum/blob/main/LICENSE
 [realll]: https://xdaforums.com/t/collection-weather-icon-sets-for-uccw-2-0.1922149/
+[unsplash]: https://unsplash.com/license
