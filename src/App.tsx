@@ -259,29 +259,32 @@ function App() {
 													<div>
 														{formatTime(time)}
 													</div>
-													<img
-														className="forecast-image"
-														src={
-															wmo_descriptions[
-																weather_code
-															]?.[
-																is_day !== 0
-																	? "day"
-																	: "night"
-															]?.image ||
-															defaultWeatherIcon
-														}
-														alt={
-															wmo_descriptions[
-																weather_code
-															]?.[
-																is_day !== 0
-																	? "day"
-																	: "night"
-															]?.description ||
-															"Unknown Weather"
-														}
-													/>
+													<div className="forecast-image-container">
+														<img
+															className="forecast-image"
+															src={
+																wmo_descriptions[
+																	weather_code
+																]?.[
+																	is_day !== 0
+																		? "day"
+																		: "night"
+																]?.image ||
+																defaultWeatherIcon
+															}
+															alt={
+																wmo_descriptions[
+																	weather_code
+																]?.[
+																	is_day !== 0
+																		? "day"
+																		: "night"
+																]
+																	?.description ||
+																"Unknown Weather"
+															}
+														/>
+													</div>
 													<div>
 														{formatTemperature(
 															temperature_2m,
@@ -325,33 +328,38 @@ function App() {
 													<div>
 														{formatDate(time)}
 													</div>
-													<img
-														className="forecast-image"
-														src={
-															wmo_descriptions[
-																weather_code
-															]?.[
-																forecast.current
-																	.is_day !==
-																0
-																	? "day"
-																	: "night"
-															]?.image ||
-															defaultWeatherIcon
-														}
-														alt={
-															wmo_descriptions[
-																weather_code
-															]?.[
-																forecast.current
-																	.is_day !==
-																0
-																	? "day"
-																	: "night"
-															]?.description ||
-															"Unknown Weather"
-														}
-													/>
+													<div className="forecast-image-container">
+														<img
+															className="forecast-image"
+															src={
+																wmo_descriptions[
+																	weather_code
+																]?.[
+																	forecast
+																		.current
+																		.is_day !==
+																	0
+																		? "day"
+																		: "night"
+																]?.image ||
+																defaultWeatherIcon
+															}
+															alt={
+																wmo_descriptions[
+																	weather_code
+																]?.[
+																	forecast
+																		.current
+																		.is_day !==
+																	0
+																		? "day"
+																		: "night"
+																]
+																	?.description ||
+																"Unknown Weather"
+															}
+														/>
+													</div>
 													<div>
 														{formatTemperature(
 															temperature_2m_min,
