@@ -1,6 +1,41 @@
 import { useEffect, useState } from "react";
-import { fetchForecast, fetchGeolocation } from "../lib/fetchers";
 import type { ForecastData, GeolocationData } from "../lib/weather";
+
+function fetchGeolocation(
+	latitude: number,
+	longitude: number,
+): Promise<Response> {
+	const geolocationApiUrl = new URL(
+		"https://nominatim.openstreetmap.org/reverse",
+	);
+	geolocationApiUrl.searchParams.set("format", "json");
+	geolocationApiUrl.searchParams.set("lat", latitude.toString());
+	geolocationApiUrl.searchParams.set("lon", longitude.toString());
+
+	return fetch(geolocationApiUrl.toString());
+}
+
+function fetchForecast(latitude: number, longitude: number): Promise<Response> {
+	const forecastApiUrl = new URL("https://api.open-meteo.com/v1/forecast");
+	forecastApiUrl.searchParams.set("latitude", latitude.toString());
+	forecastApiUrl.searchParams.set("longitude", longitude.toString());
+	forecastApiUrl.searchParams.set(
+		"current",
+		"temperature_2m,weather_code,is_day",
+	);
+	forecastApiUrl.searchParams.set(
+		"hourly",
+		"temperature_2m,weather_code,is_day",
+	);
+	forecastApiUrl.searchParams.set(
+		"daily",
+		"temperature_2m_max,temperature_2m_min,weather_code",
+	);
+	forecastApiUrl.searchParams.set("temperature_unit", "celsius");
+	forecastApiUrl.searchParams.set("timezone", "UTC");
+
+	return fetch(forecastApiUrl.toString());
+}
 
 export default function useFetchGeolocationAndForecast(): {
 	coords: GeolocationCoordinates | null;
@@ -24,17 +59,14 @@ export default function useFetchGeolocationAndForecast(): {
 
 		// TODO: Handle errors
 
-		fetchGeolocation(
-			coords.latitude.toString(),
-			coords.longitude.toString(),
-		)
+		fetchGeolocation(coords.latitude, coords.longitude)
 			.then((res) => res.json())
 			.then((data) => {
 				console.log("Geolocation data is:", data);
 				setGeolocation(data);
 			});
 
-		fetchForecast(coords.latitude.toString(), coords.longitude.toString())
+		fetchForecast(coords.latitude, coords.longitude)
 			.then((res) => res.json())
 			.then((data) => {
 				console.log("Forecast data is:", data);
