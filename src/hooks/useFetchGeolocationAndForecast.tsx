@@ -29,7 +29,7 @@ function fetchForecast(latitude: number, longitude: number): Promise<Response> {
 	);
 	forecastApiUrl.searchParams.set(
 		"daily",
-		"temperature_2m_max,temperature_2m_min,weather_code",
+		"temperature_2m_max,temperature_2m_min,weather_code,wind_speed_10m_max,wind_gusts_10m_max",
 	);
 	forecastApiUrl.searchParams.set("temperature_unit", "celsius");
 	forecastApiUrl.searchParams.set("timezone", "UTC");

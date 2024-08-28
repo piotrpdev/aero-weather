@@ -34,6 +34,7 @@ function App() {
 	// TODO: Add error handling (maybe use ErrorBoundary)
 	// TODO: Add loading states, maybe use skeleton loaders for values
 	// TODO: Extract components
+	// TODO: Extract JavaScript in JSX to variables
 	// TODO: Add hover tooltips for hourly weather time, temperature, and icon
 	return (
 		// TODO: Maybe add some weather-agnostic default background
@@ -184,6 +185,7 @@ function App() {
 									{(forecast && "Forecast") || "..."}
 								</h4>
 								<div id="week-forecast-list">
+									{/* TODO: Daily results are UTC and rollover, if someone is very behind  e.g. in USA this could cause issues */}
 									{(forecast &&
 										geolocation &&
 										(
