@@ -63,6 +63,9 @@ export type ForecastData = {
 		temperature_2m: string;
 		weather_code: string;
 		is_day: string;
+		wind_direction_10m: string;
+		wind_gusts_10m: string;
+		wind_speed_10m: string;
 	};
 	current: {
 		time: string;
@@ -70,6 +73,9 @@ export type ForecastData = {
 		temperature_2m: number;
 		weather_code: number;
 		is_day: number;
+		wind_direction_10m: number;
+		wind_gusts_10m: number;
+		wind_speed_10m: number;
 	};
 	hourly_units: {
 		time: string;
@@ -88,16 +94,12 @@ export type ForecastData = {
 		temperature_2m_max: string;
 		temperature_2m_min: string;
 		weather_code: string;
-		wind_gusts_10m_max: string;
-		wind_speed_10m_max: string;
 	};
 	daily: {
 		time: Array<string>;
 		temperature_2m_max: Array<number>;
 		temperature_2m_min: Array<number>;
 		weather_code: Array<number>;
-		wind_gusts_10m_max: Array<number>;
-		wind_speed_10m_max: Array<number>;
 	};
 };
 

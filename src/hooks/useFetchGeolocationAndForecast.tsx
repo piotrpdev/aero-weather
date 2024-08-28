@@ -21,7 +21,14 @@ function fetchForecast(latitude: number, longitude: number): Promise<Response> {
 	forecastApiUrl.searchParams.set("longitude", longitude.toString());
 	forecastApiUrl.searchParams.set(
 		"current",
-		["temperature_2m", "weather_code", "is_day"].join(","),
+		[
+			"temperature_2m",
+			"weather_code",
+			"is_day",
+			"wind_speed_10m",
+			"wind_direction_10m",
+			"wind_gusts_10m",
+		].join(","),
 	);
 	forecastApiUrl.searchParams.set(
 		"hourly",
@@ -29,15 +36,11 @@ function fetchForecast(latitude: number, longitude: number): Promise<Response> {
 	);
 	forecastApiUrl.searchParams.set(
 		"daily",
-		[
-			"temperature_2m_max",
-			"temperature_2m_min",
-			"weather_code",
-			"wind_speed_10m_max",
-			"wind_gusts_10m_max",
-		].join(","),
+		["temperature_2m_max", "temperature_2m_min", "weather_code"].join(","),
 	);
 	forecastApiUrl.searchParams.set("temperature_unit", "celsius");
+	// Daily results are UTC and rollover, if someone is very behind  e.g. in USA this could cause issues
+	// Consider using luxon https://moment.github.io/luxon/#/zones?id=creating-datetimes-in-a-zone
 	forecastApiUrl.searchParams.set("timezone", "UTC");
 
 	return fetch(forecastApiUrl.toString());

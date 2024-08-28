@@ -35,7 +35,7 @@ export const intlDateFormatter = new Intl.DateTimeFormat("en-US", {
 
 export const formatDate = (date: string): string =>
 	// biome-ignore lint/style/useTemplate: readability
-	intlDateFormatter.format(new Date(date + "Z"));
+	intlDateFormatter.format(new Date(date + "T00:00Z"));
 
 // https://gist.github.com/thesofakillers/bcf39eaed428304ddc126ca8f12336f7
 export function convertObjectArraysToArrayOfObjects<T>(

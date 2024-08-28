@@ -1,4 +1,6 @@
 import { useEffect } from "react";
+import compassImg from "./assets/compass/compass.png";
+import needleImg from "./assets/compass/needle.png";
 import defaultWeatherIcon from "./assets/realll/default.png";
 import useFetchGeolocationAndForecast from "./hooks/useFetchGeolocationAndForecast";
 import {
@@ -14,6 +16,11 @@ function App() {
 	const { geolocation, forecast } = useFetchGeolocationAndForecast();
 	const adjustedHourlyForecast = forecast
 		? timeAdjustHourlyForecast(forecast.hourly)
+		: null;
+	const adjustedDailyForecast = forecast
+		? (convertObjectArraysToArrayOfObjects<string | number>(
+				forecast.daily,
+			) as AdjustedDailyForecast)
 		: null;
 
 	useEffect(() => {
@@ -185,16 +192,9 @@ function App() {
 									{(forecast && "Forecast") || "..."}
 								</h4>
 								<div id="week-forecast-list">
-									{/* TODO: Daily results are UTC and rollover, if someone is very behind  e.g. in USA this could cause issues */}
 									{(forecast &&
 										geolocation &&
-										(
-											convertObjectArraysToArrayOfObjects<
-												string | number
-											>(
-												forecast.daily,
-											) as AdjustedDailyForecast
-										).map(
+										adjustedDailyForecast?.map(
 											({
 												time,
 												temperature_2m_max,
@@ -267,16 +267,109 @@ function App() {
 									id="air-forecast-heading"
 									className="forecast-heading"
 								>
-									{(forecast && "Air Quality") || "..."}
+									{forecast ? "Air Quality" : "..."}
 								</h4>
 							</div>
-							<div className="forecast-container">
+							<div
+								id="wind-forecast-container"
+								className="forecast-container"
+							>
 								<h4
 									id="wind-forecast-heading"
 									className="forecast-heading"
 								>
-									{(forecast && "Wind") || "..."}
+									{forecast ? "Wind" : "..."}
 								</h4>
+								<div id="wind-forecast-compass-container">
+									<div id="wind-forecast-image-container">
+										{/* I only found out that the needle doesn't indicate direction once I already separated it from the compass :( */}
+										{forecast && geolocation && (
+											<>
+												<img
+													id="wind-forecast-compass"
+													width="150px"
+													style={{
+														rotate:
+															// biome-ignore lint/style/useTemplate: <explanation>
+															(
+																360 -
+																forecast.current
+																	.wind_direction_10m
+															).toString() +
+															"deg",
+													}}
+													src={compassImg}
+													alt="compass"
+												/>
+												<img
+													id="wind-forecast-needle"
+													width="150px"
+													style={{
+														rotate:
+															// biome-ignore lint/style/useTemplate: <explanation>
+															(
+																360 -
+																forecast.current
+																	.wind_direction_10m
+															).toString() +
+															"deg",
+													}}
+													src={needleImg}
+													alt="compass needle"
+												/>
+											</>
+										)}
+									</div>
+									<div id="wind-forecast-list">
+										<div
+											id="wind-forecast-list-clarifier"
+											className="forecast-item"
+										>
+											(Coming from{" "}
+											{
+												forecast?.current
+													.wind_direction_10m
+											}
+											&deg;)
+										</div>
+										<div className="wind-forecast-list-item forecast-item">
+											<div>Wind Speed</div>
+											<div className="wind-forecast-list-item-value">
+												<div>
+													{(forecast &&
+														Math.round(
+															forecast.current
+																.wind_speed_10m,
+														)) ||
+														"..."}
+												</div>
+												<div>
+													{forecast?.current_units
+														.wind_speed_10m ||
+														"..."}
+												</div>
+											</div>
+										</div>
+										<div className="wind-forecast-list-item forecast-item">
+											<div>Gust Speed</div>
+											<div className="wind-forecast-list-item-value">
+												<div>
+													{(forecast &&
+														Math.round(
+															forecast.current
+																.wind_gusts_10m,
+														)) ||
+														"..."}
+												</div>
+												<div>
+													{forecast?.current_units
+														.wind_gusts_10m ||
+														"..."}
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 						</section>
 					</main>
