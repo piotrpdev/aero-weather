@@ -35,10 +35,13 @@ Made using the following resources:
 | [Open-Meteo Forecast API][meteo]          | [CC BY 4.0][meteo-license] (data) |
 | [Realll Weather Icons][realll]            | ?                                 |
 | Weather Backgrounds                       | [Unsplash][unsplash]              |
+| [Compass Image][compass]                  | [Freepik Free][freep-license][^2] |
 
 [^1]: OpenStreetMap® is open data, licensed under the
 [Open Data Commons Open Database License (ODbL)][geo-license] by the
 [OpenStreetMap Foundation (OSMF)][osmf].
+
+[^2]: ["Realistic map compass background"][compass] designed by [Freepik][freepik].
 
 [aero]: https://en.wikipedia.org/wiki/Windows_Aero
 [tauri-pre]: https://v2.tauri.app/start/prerequisites/
@@ -54,3 +57,6 @@ Made using the following resources:
 [decorum-license]: https://github.com/clearlysid/tauri-plugin-decorum/blob/main/LICENSE
 [realll]: https://xdaforums.com/t/collection-weather-icon-sets-for-uccw-2-0.1922149/
 [unsplash]: https://unsplash.com/license
+[compass]: https://www.freepik.com/free-vector/realistic-map-compass-background_1631670.htm
+[freepik]: http://www.freepik.com
+[freep-license]: http://www.freepik.com/terms_of_use
