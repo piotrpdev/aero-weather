@@ -21,15 +21,21 @@ function fetchForecast(latitude: number, longitude: number): Promise<Response> {
 	forecastApiUrl.searchParams.set("longitude", longitude.toString());
 	forecastApiUrl.searchParams.set(
 		"current",
-		"temperature_2m,weather_code,is_day",
+		["temperature_2m", "weather_code", "is_day"].join(","),
 	);
 	forecastApiUrl.searchParams.set(
 		"hourly",
-		"temperature_2m,weather_code,is_day",
+		["temperature_2m", "weather_code", "is_day"].join(","),
 	);
 	forecastApiUrl.searchParams.set(
 		"daily",
-		"temperature_2m_max,temperature_2m_min,weather_code,wind_speed_10m_max,wind_gusts_10m_max",
+		[
+			"temperature_2m_max",
+			"temperature_2m_min",
+			"weather_code",
+			"wind_speed_10m_max",
+			"wind_gusts_10m_max",
+		].join(","),
 	);
 	forecastApiUrl.searchParams.set("temperature_unit", "celsius");
 	forecastApiUrl.searchParams.set("timezone", "UTC");
