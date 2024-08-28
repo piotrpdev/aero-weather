@@ -93,11 +93,12 @@ function App() {
 								id="hourly-forecast-heading"
 								className="forecast-heading"
 							>
-								{/* TODO: Actually implement prediction here */}
 								{(forecast &&
+									adjustedHourlyForecast &&
 									`${
 										wmo_descriptions[
-											forecast.current.weather_code
+											adjustedHourlyForecast[0]
+												.weather_code
 										]?.[
 											forecast.current.is_day !== 0
 												? "day"
@@ -105,7 +106,8 @@ function App() {
 										]?.description || "..."
 									}${
 										wmo_descriptions[
-											forecast.current.weather_code
+											adjustedHourlyForecast[0]
+												.weather_code
 										]?.[
 											forecast.current.is_day !== 0
 												? "day"
@@ -113,65 +115,60 @@ function App() {
 										]?.includeSuffix
 											? " weather"
 											: ""
-									} will continue in the next hour.`) ||
+									} will ${forecast.current.weather_code === adjustedHourlyForecast[0].weather_code ? "continue" : "develop"} in the next hour.`) ||
 									"..."}
 							</h4>
 							<div id="hourly-forecast-list">
 								{(geolocation &&
-									adjustedHourlyForecast
-										?.slice(0, 36)
-										.map(
-											({
-												time,
-												is_day,
-												temperature_2m,
-												weather_code,
-											}) => (
-												<div
-													key={time}
-													className="hourly-forecast-item forecast-item"
-												>
-													<div>
-														{formatTime(time)}
-													</div>
-													<div className="forecast-image-container">
-														<img
-															className="forecast-image"
-															width="40px"
-															height="40px"
-															src={
-																wmo_descriptions[
-																	weather_code
-																]?.[
-																	is_day !== 0
-																		? "day"
-																		: "night"
-																]?.image ||
-																defaultWeatherIcon
-															}
-															alt={
-																wmo_descriptions[
-																	weather_code
-																]?.[
-																	is_day !== 0
-																		? "day"
-																		: "night"
-																]
-																	?.description ||
-																"Unknown Weather"
-															}
-														/>
-													</div>
-													<div>
-														{formatTemperature(
-															temperature_2m,
-															geolocation.address
-																.country_code,
-														)}
-													</div>
+									adjustedHourlyForecast?.map(
+										({
+											time,
+											is_day,
+											temperature_2m,
+											weather_code,
+										}) => (
+											<div
+												key={time}
+												className="hourly-forecast-item forecast-item"
+											>
+												<div>{formatTime(time)}</div>
+												<div className="forecast-image-container">
+													<img
+														className="forecast-image"
+														width="40px"
+														height="40px"
+														src={
+															wmo_descriptions[
+																weather_code
+															]?.[
+																is_day !== 0
+																	? "day"
+																	: "night"
+															]?.image ||
+															defaultWeatherIcon
+														}
+														alt={
+															wmo_descriptions[
+																weather_code
+															]?.[
+																is_day !== 0
+																	? "day"
+																	: "night"
+															]?.description ||
+															"Unknown Weather"
+														}
+													/>
 												</div>
-											),
-										)) ||
+												<div>
+													{formatTemperature(
+														temperature_2m,
+														geolocation.address
+															.country_code,
+													)}
+												</div>
+											</div>
+										),
+									)) ||
 									"..."}
 							</div>
 						</section>

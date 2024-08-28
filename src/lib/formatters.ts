@@ -52,12 +52,13 @@ export function convertObjectArraysToArrayOfObjects<T>(
 
 export function timeAdjustHourlyForecast(
 	hourlyForecast: ForecastData["hourly"],
+	sliceLength = 36,
 ): AdjustedHourlyForecast {
 	const indexOfNextTime = hourlyForecast.time.findIndex(
 		// biome-ignore lint/style/useTemplate: readability
 		(time) => new Date(time + "Z") > new Date(),
 	);
-	return convertObjectArraysToArrayOfObjects<string | number>(
-		hourlyForecast,
-	).slice(indexOfNextTime) as AdjustedHourlyForecast;
+	return convertObjectArraysToArrayOfObjects<string | number>(hourlyForecast)
+		.slice(indexOfNextTime)
+		.slice(0, sliceLength) as AdjustedHourlyForecast;
 }
