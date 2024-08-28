@@ -108,27 +108,27 @@ div[data-tauri-decorum-tb] {
 /* TODO: Compress backgrounds to best format */
 /* TODO: Add image transitions, need to crop all pictures to same size/aspect ratio first */
 .bg-thunderstorm {
-	background-image: url(./assets/backgrounds/thunderstorm.jpg);
+	background-image: url(../backgrounds/thunderstorm.jpg);
 }
 
 .bg-sunny {
-	background-image: url(./assets/backgrounds/sunny.jpg);
+	background-image: url(../backgrounds/sunny.jpg);
 }
 
 .bg-foggy {
-	background-image: url(./assets/backgrounds/foggy.jpg);
+	background-image: url(../backgrounds/foggy.jpg);
 }
 
 .bg-cloudy {
-	background-image: url(./assets/backgrounds/cloudy.jpg);
+	background-image: url(../backgrounds/cloudy.jpg);
 }
 
 .bg-drizzle {
-	background-image: url(./assets/backgrounds/drizzle.jpg);
+	background-image: url(../backgrounds/drizzle.jpg);
 }
 
 .bg-snow {
-	background-image: url(./assets/backgrounds/snow.jpg);
+	background-image: url(../backgrounds/snow.jpg);
 }
 
 #inner-container {

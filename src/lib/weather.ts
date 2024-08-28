@@ -1,22 +1,22 @@
-import day0 from "./assets/realll/day/0.png";
-import day2 from "./assets/realll/day/2.png";
-import day3 from "./assets/realll/day/3.png";
-import day45 from "./assets/realll/day/45.png";
-import day51 from "./assets/realll/day/51.png";
-import day63 from "./assets/realll/day/63.png";
-import day73 from "./assets/realll/day/73.png";
-import day85 from "./assets/realll/day/85.png";
-import day95 from "./assets/realll/day/95.png";
+import day0 from "../assets/realll/day/0.png";
+import day2 from "../assets/realll/day/2.png";
+import day3 from "../assets/realll/day/3.png";
+import day45 from "../assets/realll/day/45.png";
+import day51 from "../assets/realll/day/51.png";
+import day63 from "../assets/realll/day/63.png";
+import day73 from "../assets/realll/day/73.png";
+import day85 from "../assets/realll/day/85.png";
+import day95 from "../assets/realll/day/95.png";
 
-import night0 from "./assets/realll/night/0.png";
-import night2 from "./assets/realll/night/2.png";
-import night3 from "./assets/realll/night/3.png";
-import night45 from "./assets/realll/night/45.png";
-import night51 from "./assets/realll/night/51.png";
-import night63 from "./assets/realll/night/63.png";
-import night73 from "./assets/realll/night/73.png";
-import night85 from "./assets/realll/night/85.png";
-import night95 from "./assets/realll/night/95.png";
+import night0 from "../assets/realll/night/0.png";
+import night2 from "../assets/realll/night/2.png";
+import night3 from "../assets/realll/night/3.png";
+import night45 from "../assets/realll/night/45.png";
+import night51 from "../assets/realll/night/51.png";
+import night63 from "../assets/realll/night/63.png";
+import night73 from "../assets/realll/night/73.png";
+import night85 from "../assets/realll/night/85.png";
+import night95 from "../assets/realll/night/95.png";
 
 // TODO: update this type when decided on API params
 export type GeolocationData = {
@@ -114,6 +114,15 @@ export type WmoDescriptions = Record<
 		};
 	}
 >;
+
+// I hate complicated TypeScript types :(
+export type AdjustedHourlyForecast = Array<{
+	[K in keyof ForecastData["hourly"]]: ForecastData["hourly"][K][number];
+}>;
+
+export type AdjustedDailyForecast = Array<{
+	[K in keyof ForecastData["daily"]]: ForecastData["daily"][K][number];
+}>;
 
 // TODO: Maybe change key to number instead
 // Taken from this URL: https://gist.github.com/stellasphere/9490c195ed2b53c707087c8c2db4ec0c

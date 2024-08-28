@@ -1,83 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import defaultWeatherIcon from "./assets/realll/default.png";
+import { useFetchGeolocationAndForecast } from "./hooks/useFetchGeolocationAndForecast";
 import {
-	type ForecastData,
-	type GeolocationData,
-	wmo_descriptions,
-} from "./weather";
+	convertObjectArraysToArrayOfObjects,
+	formatDate,
+	formatTemperature,
+	formatTime,
+	timeAdjustHourlyForecast,
+} from "./lib/formatters";
+import { type AdjustedDailyForecast, wmo_descriptions } from "./lib/weather";
 
 function App() {
-	const [coords, setCoords] = useState<GeolocationCoordinates>();
-	const [geolocation, setGeolocation] = useState<GeolocationData>();
-	const [forecast, setForecast] = useState<ForecastData>();
-
-	const formatTemperature = (temperature: number): string => {
-		if (!geolocation) return temperature.toString();
-
-		// https://en.wikipedia.org/wiki/Fahrenheit
-		// https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
-		if (
-			["us", "bs", "ky", "pw", "fm", "mh", "lr"].includes(
-				geolocation.address.country_code,
-			)
-		) {
-			// IEEE 754 has come to haunt us
-			const fahrenheit = temperature * 1.8 + 32;
-			return `${Math.round(fahrenheit)}°F`;
-		}
-
-		return `${Math.round(temperature)}°C`;
-	};
-
-	const intlTimeFormatter = new Intl.DateTimeFormat("en-US", {
-		hour12: true,
-		hour: "numeric",
-	});
-	// https://stackoverflow.com/a/32252922/19020549
-	const formatTime = (time: string): string =>
-		// biome-ignore lint/style/useTemplate: readability
-		intlTimeFormatter.format(new Date(time + "Z"));
-
-	const intlDateFormatter = new Intl.DateTimeFormat("en-US", {
-		weekday: "short",
-	});
-
-	const formatDate = (date: string): string =>
-		// biome-ignore lint/style/useTemplate: readability
-		intlDateFormatter.format(new Date(date + "Z"));
-
-	// https://gist.github.com/thesofakillers/bcf39eaed428304ddc126ca8f12336f7
-	function convertObjectArraysToArrayOfObjects<T>(
-		objectArrays: Record<string, Array<T>>,
-	): Array<Record<string, T>> {
-		return objectArrays[Object.keys(objectArrays)[0]].map((_, i) => {
-			const internalObject: Record<string, T> = {};
-			for (const key of Object.keys(objectArrays)) {
-				internalObject[key] = objectArrays[key][i];
-			}
-			return internalObject;
-		});
-	}
-
-	// I hate complicated TypeScript types :(
-	type AdjustedHourlyForecast = Array<{
-		[K in keyof ForecastData["hourly"]]: ForecastData["hourly"][K][number];
-	}>;
-	function timeAdjustHourlyForecast(
-		hourlyForecast: ForecastData["hourly"],
-	): AdjustedHourlyForecast {
-		const indexOfNextTime = hourlyForecast.time.findIndex(
-			// biome-ignore lint/style/useTemplate: readability
-			(time) => new Date(time + "Z") > new Date(),
-		);
-		return convertObjectArraysToArrayOfObjects<string | number>(
-			hourlyForecast,
-		).slice(indexOfNextTime) as AdjustedHourlyForecast;
-	}
-
-	type AdjustedDailyForecast = Array<{
-		[K in keyof ForecastData["daily"]]: ForecastData["daily"][K][number];
-	}>;
+	const { geolocation, forecast } = useFetchGeolocationAndForecast();
+	const adjustedHourlyForecast = forecast
+		? timeAdjustHourlyForecast(forecast.hourly)
+		: null;
 
 	useEffect(() => {
 		// No fancy window blur possible on Linux
@@ -91,73 +28,6 @@ function App() {
 			document.querySelector("#root")?.classList.add("web");
 		}
 	}, []);
-
-	// biome-ignore lint/correctness/useExhaustiveDependencies: object dep
-	useEffect(() => {
-		// TODO: Maybe use Tauri geolocation API for better accuracy
-		navigator.geolocation.getCurrentPosition((position) => {
-			setCoords(position.coords);
-		});
-
-		if (coords !== undefined) {
-			console.log("Coordinate data is:", coords);
-
-			// TODO: Handle errors
-
-			const geolocationApiUrl = new URL(
-				"https://nominatim.openstreetmap.org/reverse",
-			);
-			geolocationApiUrl.searchParams.set("format", "json");
-			geolocationApiUrl.searchParams.set(
-				"lat",
-				coords.latitude.toString(),
-			);
-			geolocationApiUrl.searchParams.set(
-				"lon",
-				coords.longitude.toString(),
-			);
-
-			fetch(geolocationApiUrl.toString())
-				.then((res) => res.json())
-				.then((data) => {
-					console.log("Geolocation data is:", data);
-					setGeolocation(data);
-				});
-
-			const forecastApiUrl = new URL(
-				"https://api.open-meteo.com/v1/forecast",
-			);
-			forecastApiUrl.searchParams.set(
-				"latitude",
-				coords.latitude.toString(),
-			);
-			forecastApiUrl.searchParams.set(
-				"longitude",
-				coords.longitude.toString(),
-			);
-			forecastApiUrl.searchParams.set(
-				"current",
-				"temperature_2m,weather_code,is_day",
-			);
-			forecastApiUrl.searchParams.set(
-				"hourly",
-				"temperature_2m,weather_code,is_day",
-			);
-			forecastApiUrl.searchParams.set(
-				"daily",
-				"temperature_2m_max,temperature_2m_min,weather_code",
-			);
-			forecastApiUrl.searchParams.set("temperature_unit", "celsius");
-			forecastApiUrl.searchParams.set("timezone", "UTC");
-
-			fetch(forecastApiUrl.toString())
-				.then((res) => res.json())
-				.then((data) => {
-					console.log("Forecast data is:", data);
-					setForecast(data);
-				});
-		}
-	}, [coords?.longitude]);
 
 	// TODO: Add OSM, Open-Meteo, personal, design, license, etc. attribution
 	// TODO: Maybe user SWR/React Query for data fetching
@@ -194,8 +64,10 @@ function App() {
 							{/* TODO: Maybe let user click on this to change temperature units */}
 							<h1 id="temperature">
 								{forecast &&
+									geolocation &&
 									formatTemperature(
 										forecast.current.temperature_2m,
+										geolocation.address.country_code,
 									)}
 							</h1>
 						</div>
@@ -242,9 +114,9 @@ function App() {
 									} will continue in the next hour.`}
 							</h4>
 							<div id="hourly-forecast-list">
-								{forecast &&
-									timeAdjustHourlyForecast(forecast.hourly)
-										.slice(0, 36)
+								{geolocation &&
+									adjustedHourlyForecast
+										?.slice(0, 36)
 										.map(
 											({
 												time,
@@ -288,6 +160,8 @@ function App() {
 													<div>
 														{formatTemperature(
 															temperature_2m,
+															geolocation.address
+																.country_code,
 														)}
 													</div>
 												</div>
@@ -308,6 +182,7 @@ function App() {
 								</h4>
 								<div id="week-forecast-list">
 									{forecast &&
+										geolocation &&
 										(
 											convertObjectArraysToArrayOfObjects<
 												string | number
@@ -363,11 +238,15 @@ function App() {
 													<div>
 														{formatTemperature(
 															temperature_2m_min,
+															geolocation.address
+																.country_code,
 														)}
 													</div>
 													<div>
 														{formatTemperature(
 															temperature_2m_max,
+															geolocation.address
+																.country_code,
 														)}
 													</div>
 												</div>
