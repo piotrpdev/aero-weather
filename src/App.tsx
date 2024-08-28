@@ -4,6 +4,8 @@ import needleImg from "./assets/compass/needle.png";
 import defaultWeatherIcon from "./assets/realll/default.png";
 import useFetchGeolocationAndForecast from "./hooks/useFetchGeolocationAndForecast";
 import {
+	type AdjustedCurrentWind,
+	adjustCurrentWind,
 	convertObjectArraysToArrayOfObjects,
 	formatDate,
 	formatTemperature,
@@ -14,14 +16,37 @@ import { type AdjustedDailyForecast, wmo_descriptions } from "./lib/weather";
 
 function App() {
 	const { geolocation, forecast } = useFetchGeolocationAndForecast();
+
 	const adjustedHourlyForecast = forecast
 		? timeAdjustHourlyForecast(forecast.hourly)
 		: null;
+
 	const adjustedDailyForecast = forecast
 		? (convertObjectArraysToArrayOfObjects<string | number>(
 				forecast.daily,
 			) as AdjustedDailyForecast)
 		: null;
+
+	const { adjustedWindValue, adjustedWindUnit } = (
+		forecast && geolocation
+			? adjustCurrentWind(
+					forecast.current.wind_speed_10m,
+					geolocation.address.country_code,
+				)
+			: { adjustedWindValue: null, adjustedWindUnit: null }
+	) as AdjustedCurrentWind;
+
+	const {
+		adjustedWindValue: adjustedGustValue,
+		adjustedWindUnit: adjustedGustUnit,
+	} = (
+		forecast && geolocation
+			? adjustCurrentWind(
+					forecast.current.wind_gusts_10m,
+					geolocation.address.country_code,
+				)
+			: { adjustedWindValue: null, adjustedWindUnit: null }
+	) as AdjustedCurrentWind;
 
 	useEffect(() => {
 		// No fancy window blur possible on Linux
@@ -336,17 +361,10 @@ function App() {
 											<div>Wind Speed</div>
 											<div className="wind-forecast-list-item-value">
 												<div>
-													{(forecast &&
-														Math.round(
-															forecast.current
-																.wind_speed_10m,
-														)) ||
-														"..."}
+													{adjustedWindValue || "..."}
 												</div>
 												<div>
-													{forecast?.current_units
-														.wind_speed_10m ||
-														"..."}
+													{adjustedWindUnit || "..."}
 												</div>
 											</div>
 										</div>
@@ -354,17 +372,10 @@ function App() {
 											<div>Gust Speed</div>
 											<div className="wind-forecast-list-item-value">
 												<div>
-													{(forecast &&
-														Math.round(
-															forecast.current
-																.wind_gusts_10m,
-														)) ||
-														"..."}
+													{adjustedGustValue || "..."}
 												</div>
 												<div>
-													{forecast?.current_units
-														.wind_gusts_10m ||
-														"..."}
+													{adjustedGustUnit || "..."}
 												</div>
 											</div>
 										</div>

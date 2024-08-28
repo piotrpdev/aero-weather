@@ -62,3 +62,26 @@ export function timeAdjustHourlyForecast(
 		.slice(indexOfNextTime)
 		.slice(0, sliceLength) as AdjustedHourlyForecast;
 }
+
+export type AdjustedCurrentWind = {
+	adjustedWindValue: number;
+	adjustedWindUnit: string;
+};
+
+export function adjustCurrentWind(
+	wind_speed_10m: ForecastData["current"]["wind_speed_10m"],
+	countryCode: GeolocationData["address"]["country_code"],
+): AdjustedCurrentWind {
+	// https://en.wikipedia.org/wiki/Fahrenheit
+	// https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
+	if (["us", "bs", "ky", "pw", "fm", "mh", "lr"].includes(countryCode)) {
+		// IEEE 754 has come to haunt us
+		const mph = wind_speed_10m / 1.609;
+		return { adjustedWindValue: Math.round(mph), adjustedWindUnit: "mph" };
+	}
+
+	return {
+		adjustedWindValue: Math.round(wind_speed_10m),
+		adjustedWindUnit: "km/h",
+	};
+}
