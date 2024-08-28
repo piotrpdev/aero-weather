@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import type { ForecastData, GeolocationData } from "../lib/weather";
 
+const IS_TEST = false;
+// White House coordinates (Washington, D.C., USA)
+const TEST_LAT = "38.8977";
+const TEST_LON = "-77.0366";
+
 function fetchGeolocation(
 	latitude: number,
 	longitude: number,
@@ -9,16 +14,28 @@ function fetchGeolocation(
 		"https://nominatim.openstreetmap.org/reverse",
 	);
 	geolocationApiUrl.searchParams.set("format", "json");
-	geolocationApiUrl.searchParams.set("lat", latitude.toString());
-	geolocationApiUrl.searchParams.set("lon", longitude.toString());
+	geolocationApiUrl.searchParams.set(
+		"lat",
+		IS_TEST ? TEST_LAT : latitude.toString(),
+	);
+	geolocationApiUrl.searchParams.set(
+		"lon",
+		IS_TEST ? TEST_LON : longitude.toString(),
+	);
 
 	return fetch(geolocationApiUrl.toString());
 }
 
 function fetchForecast(latitude: number, longitude: number): Promise<Response> {
 	const forecastApiUrl = new URL("https://api.open-meteo.com/v1/forecast");
-	forecastApiUrl.searchParams.set("latitude", latitude.toString());
-	forecastApiUrl.searchParams.set("longitude", longitude.toString());
+	forecastApiUrl.searchParams.set(
+		"latitude",
+		IS_TEST ? TEST_LAT : latitude.toString(),
+	);
+	forecastApiUrl.searchParams.set(
+		"longitude",
+		IS_TEST ? TEST_LON : longitude.toString(),
+	);
 	forecastApiUrl.searchParams.set(
 		"current",
 		[
