@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { fetchForecast, fetchGeolocation } from "../lib/fetchers";
 import type { ForecastData, GeolocationData } from "../lib/weather";
 
-export function useFetchGeolocationAndForecast(): {
+export default function useFetchGeolocationAndForecast(): {
 	coords: GeolocationCoordinates | null;
 	geolocation: GeolocationData | null;
 	forecast: ForecastData | null;

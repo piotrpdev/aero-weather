@@ -269,6 +269,8 @@ main {
 	gap: 20px;
 	isolation: isolate;
 
+	min-height: 80px;
+
 	mask: linear-gradient(to right, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%);
 	-webkit-mask: linear-gradient(to right, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%);
 }
@@ -299,6 +301,7 @@ main {
 	flex-direction: column;
 	gap: 0px;
 	isolation: isolate;
+	min-height: 270px;
 }
 
 .week-forecast-item {

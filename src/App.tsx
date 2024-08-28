@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import defaultWeatherIcon from "./assets/realll/default.png";
-import { useFetchGeolocationAndForecast } from "./hooks/useFetchGeolocationAndForecast";
+import useFetchGeolocationAndForecast from "./hooks/useFetchGeolocationAndForecast";
 import {
 	convertObjectArraysToArrayOfObjects,
 	formatDate,
@@ -35,7 +35,6 @@ function App() {
 	// TODO: Add loading states, maybe use skeleton loaders for values
 	// TODO: Extract components
 	// TODO: Add hover tooltips for hourly weather time, temperature, and icon
-	// TODO: Optimize/reduce re-renders
 	return (
 		// TODO: Maybe add some weather-agnostic default background
 		<div
@@ -55,31 +54,34 @@ function App() {
 							<div id="city-state">
 								<h1 id="city">
 									{geolocation?.address.city ||
-										geolocation?.address.county}
+										geolocation?.address.county ||
+										"..."}
 								</h1>
 								<h3 id="state">
-									{geolocation?.address.country}
+									{geolocation?.address.country || "..."}
 								</h3>
 							</div>
 							{/* TODO: Maybe let user click on this to change temperature units */}
 							<h1 id="temperature">
-								{forecast &&
+								{(forecast &&
 									geolocation &&
 									formatTemperature(
 										forecast.current.temperature_2m,
 										geolocation.address.country_code,
-									)}
+									)) ||
+									"..."}
 							</h1>
 						</div>
 						<h5 id="type">
-							{forecast &&
+							{(forecast &&
 								wmo_descriptions[
 									forecast.current.weather_code
 								]?.[
 									forecast.current.is_day !== 0
 										? "day"
 										: "night"
-								]?.description}
+								]?.description) ||
+								"..."}
 						</h5>
 					</header>
 					<main>
@@ -92,7 +94,7 @@ function App() {
 								className="forecast-heading"
 							>
 								{/* TODO: Actually implement prediction here */}
-								{forecast &&
+								{(forecast &&
 									`${
 										wmo_descriptions[
 											forecast.current.weather_code
@@ -100,7 +102,7 @@ function App() {
 											forecast.current.is_day !== 0
 												? "day"
 												: "night"
-										]?.description
+										]?.description || "..."
 									}${
 										wmo_descriptions[
 											forecast.current.weather_code
@@ -111,10 +113,11 @@ function App() {
 										]?.includeSuffix
 											? " weather"
 											: ""
-									} will continue in the next hour.`}
+									} will continue in the next hour.`) ||
+									"..."}
 							</h4>
 							<div id="hourly-forecast-list">
-								{geolocation &&
+								{(geolocation &&
 									adjustedHourlyForecast
 										?.slice(0, 36)
 										.map(
@@ -134,6 +137,8 @@ function App() {
 													<div className="forecast-image-container">
 														<img
 															className="forecast-image"
+															width="40px"
+															height="40px"
 															src={
 																wmo_descriptions[
 																	weather_code
@@ -166,7 +171,8 @@ function App() {
 													</div>
 												</div>
 											),
-										)}
+										)) ||
+									"..."}
 							</div>
 						</section>
 						<section id="week-air-wind-container">
@@ -178,10 +184,10 @@ function App() {
 									id="week-forecast-heading"
 									className="forecast-heading"
 								>
-									{forecast && "Forecast"}
+									{(forecast && "Forecast") || "..."}
 								</h4>
 								<div id="week-forecast-list">
-									{forecast &&
+									{(forecast &&
 										geolocation &&
 										(
 											convertObjectArraysToArrayOfObjects<
@@ -206,6 +212,8 @@ function App() {
 													<div className="forecast-image-container">
 														<img
 															className="forecast-image"
+															width="40px"
+															height="40px"
 															src={
 																wmo_descriptions[
 																	weather_code
@@ -251,7 +259,8 @@ function App() {
 													</div>
 												</div>
 											),
-										)}
+										)) ||
+										"..."}
 								</div>
 							</div>
 							<div className="forecast-container">
@@ -259,7 +268,7 @@ function App() {
 									id="air-forecast-heading"
 									className="forecast-heading"
 								>
-									{forecast && "Air Quality"}
+									{(forecast && "Air Quality") || "..."}
 								</h4>
 							</div>
 							<div className="forecast-container">
@@ -267,7 +276,7 @@ function App() {
 									id="wind-forecast-heading"
 									className="forecast-heading"
 								>
-									{forecast && "Wind"}
+									{(forecast && "Wind") || "..."}
 								</h4>
 							</div>
 						</section>
