@@ -10,6 +10,7 @@ import {
 	formatDate,
 	formatTemperature,
 	formatTime,
+	getAqiDescription,
 	timeAdjustHourlyForecast,
 } from "./lib/formatters";
 import { type AdjustedDailyForecast, wmo_descriptions } from "./lib/weather";
@@ -302,6 +303,50 @@ function App() {
 									{forecast ? "Air Quality" : "..."}
 								</h4>
 								<div id="air-forecast-scale-container">
+									<div id="air-forecast-list">
+										<div className="air-forecast-item forecast-item">
+											<div id="air-forecast-value-list">
+												<div id="air-forecast-value">
+													{(geolocation &&
+													geolocation.address
+														.country_code === "us"
+														? airQuality?.current
+																.us_aqi
+														: airQuality?.current
+																.european_aqi) ||
+														"..."}
+												</div>
+												<div id="air-forecast-units">
+													{(geolocation &&
+													geolocation.address
+														.country_code === "us"
+														? airQuality
+																?.current_units
+																.us_aqi
+														: airQuality
+																?.current_units
+																.european_aqi) ||
+														"..."}
+												</div>
+											</div>
+											<div id="air-forecast-description">
+												{(airQuality &&
+													geolocation &&
+													getAqiDescription(
+														geolocation.address
+															.country_code ===
+															"us"
+															? airQuality.current
+																	.us_aqi
+															: airQuality.current
+																	.european_aqi,
+														geolocation.address
+															.country_code,
+													)) ||
+													"..."}
+											</div>
+										</div>
+									</div>
 									<div id="air-forecast-image-container">
 										{airQuality && geolocation && (
 											<>
@@ -332,22 +377,6 @@ function App() {
 												</div>
 											</>
 										)}
-									</div>
-									<div id="air-forecast-list">
-										<div className="air-forecast-item forecast-item">
-											<div>European AQI</div>
-											<div>
-												{airQuality?.current
-													.european_aqi || "..."}
-											</div>
-										</div>
-										<div className="air-forecast-item forecast-item">
-											<div>US AQI</div>
-											<div>
-												{airQuality?.current.us_aqi ||
-													"..."}
-											</div>
-										</div>
 									</div>
 								</div>
 							</div>

@@ -333,13 +333,16 @@ main {
 #air-forecast-container {
 	display: flex;
 	flex-direction: column;
+	height: min-content;
 }
 
 #air-forecast-scale-container {
-	height: 100%;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
+
+	gap: 8px;
+	margin-top: 11px;
 
 	isolation: isolate;
 }
@@ -378,6 +381,22 @@ main {
 
 .air-forecast-scale-eaqi {
 	background: linear-gradient(to right, #4cf0e5 10%, #4dccab 30%, #efe553 50%, #ff5054 70%, #970033 90%, #7e227f 100%);
+}
+
+#air-forecast-value-list {
+	display: flex;
+	flex-direction: row;
+	gap: 6px;
+	align-items: baseline;
+	line-height: normal;
+}
+
+#air-forecast-value {
+	font-size: 1.3rem;
+}
+
+#air-forecast-units {
+	color: hsl(0, 0%, 80%);
 }
 
 #circle-container {

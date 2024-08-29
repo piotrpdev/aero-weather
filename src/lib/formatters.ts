@@ -1,5 +1,6 @@
 import type {
 	AdjustedHourlyForecast,
+	AirQualityData,
 	ForecastData,
 	GeolocationData,
 } from "./weather";
@@ -84,4 +85,46 @@ export function adjustCurrentWind(
 		adjustedWindValue: Math.round(wind_speed_10m),
 		adjustedWindUnit: "km/h",
 	};
+}
+
+// https://open-meteo.com/en/docs/air-quality-api
+export function getAqiDescription(
+	aqi:
+		| AirQualityData["current"]["european_aqi"]
+		| AirQualityData["current"]["us_aqi"],
+	countryCode: GeolocationData["address"]["country_code"],
+) {
+	let description = "Unknown";
+
+	if (countryCode === "us") {
+		if (aqi <= 50) {
+			description = "Good";
+		} else if (aqi <= 100) {
+			description = "Moderate";
+		} else if (aqi <= 150) {
+			description = "Unhealthy for Sensitive Groups";
+		} else if (aqi <= 200) {
+			description = "Unhealthy";
+		} else if (aqi <= 300) {
+			description = "Very Unhealthy";
+		} else {
+			description = "Hazardous";
+		}
+	} else {
+		if (aqi <= 20) {
+			description = "Good";
+		} else if (aqi <= 40) {
+			description = "Fair";
+		} else if (aqi <= 60) {
+			description = "Moderate";
+		} else if (aqi <= 80) {
+			description = "Poor";
+		} else if (aqi <= 100) {
+			description = "Very Poor";
+		} else {
+			description = "Extremely Poor";
+		}
+	}
+
+	return description;
 }
