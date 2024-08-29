@@ -6,6 +6,8 @@ Design is
 ["attempt at designing the weather app"][design]
 by [kilobyte (@1000kilobytes)](https://x.com/1000kilobytes).
 
+![preview]
+
 ## Development
 
 > [!WARNING]
@@ -43,6 +45,7 @@ Made using the following resources:
 
 [^2]: ["Realistic map compass background"][compass] designed by [Freepik][freepik].
 
+[preview]: ./public/preview.png
 [aero]: https://en.wikipedia.org/wiki/Windows_Aero
 [tauri-pre]: https://v2.tauri.app/start/prerequisites/
 [license]: ./LICENSE

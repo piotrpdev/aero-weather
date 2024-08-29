@@ -91,6 +91,7 @@ function fetchAirQuality(
 }
 
 export default function useFetchGeolocationAndForecast(): {
+	error: Error | null;
 	coords: GeolocationCoordinates | null;
 	geolocation: GeolocationData | null;
 	forecast: ForecastData | null;
@@ -102,39 +103,62 @@ export default function useFetchGeolocationAndForecast(): {
 	);
 	const [forecast, setForecast] = useState<ForecastData | null>(null);
 	const [airQuality, setAirQuality] = useState<AirQualityData | null>(null);
+	const [error, setError] = useState<Error | null>(null);
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: object dep
 	useEffect(() => {
-		// TODO: Maybe use Tauri geolocation API for better accuracy
+		// ? Maybe use Tauri geolocation API for better accuracy
 		navigator.geolocation.getCurrentPosition((position) => {
 			setCoords(position.coords);
 		});
 
 		if (!coords || (forecast && geolocation)) return;
 
-		// TODO: Handle errors
-
 		fetchGeolocation(coords.latitude, coords.longitude)
-			.then((res) => res.json())
+			.then((res) => {
+				if (res.ok) {
+					return res.json();
+				}
+				throw new Error("Geolocation API request failed");
+			})
 			.then((data) => {
 				console.log("Geolocation data is:", data);
 				setGeolocation(data);
+			})
+			.catch((err) => {
+				setError(err);
 			});
 
 		fetchForecast(coords.latitude, coords.longitude)
-			.then((res) => res.json())
+			.then((res) => {
+				if (res.ok) {
+					return res.json();
+				}
+				throw new Error("Forecast API request failed");
+			})
 			.then((data) => {
 				console.log("Forecast data is:", data);
 				setForecast(data);
+			})
+			.catch((err) => {
+				setError(err);
 			});
 
 		fetchAirQuality(coords.latitude, coords.longitude)
-			.then((res) => res.json())
+			.then((res) => {
+				if (res.ok) {
+					return res.json();
+				}
+				throw new Error("Air Quality API request failed");
+			})
 			.then((data) => {
 				console.log("Air quality data is:", data);
 				setAirQuality(data);
+			})
+			.catch((err) => {
+				setError(err);
 			});
 	}, [coords?.longitude]);
 
-	return { coords, geolocation, forecast, airQuality };
+	return { error, coords, geolocation, forecast, airQuality };
 }

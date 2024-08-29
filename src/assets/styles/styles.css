@@ -104,7 +104,6 @@ div[data-tauri-decorum-tb] {
 	background: linear-gradient(to bottom, hsl(233.33deg 42.86% 4.12% / 80%), transparent 40%);
 }
 
-/* TODO: Add backgrounds for different weather */
 /* TODO: Compress backgrounds to best format */
 /* TODO: Add image transitions, need to crop all pictures to same size/aspect ratio first */
 .bg-thunderstorm {

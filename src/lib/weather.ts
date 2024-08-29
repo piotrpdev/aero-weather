@@ -18,7 +18,6 @@ import night73 from "../assets/realll/night/73.png";
 import night85 from "../assets/realll/night/85.png";
 import night95 from "../assets/realll/night/95.png";
 
-// TODO: update this type when decided on API params
 export type GeolocationData = {
 	place_id: number;
 	licence: string;
@@ -48,7 +47,6 @@ export type GeolocationData = {
 	boundingbox: Array<string>;
 };
 
-// TODO: update this type when decided on API params
 export type ForecastData = {
 	latitude: number;
 	longitude: number;
@@ -152,7 +150,7 @@ export type AdjustedDailyForecast = Array<{
 	[K in keyof ForecastData["daily"]]: ForecastData["daily"][K][number];
 }>;
 
-// TODO: Maybe change key to number instead
+// ? Maybe change key to number instead
 // Taken from this URL: https://gist.github.com/stellasphere/9490c195ed2b53c707087c8c2db4ec0c
 // Further detail here: https://www.nodc.noaa.gov/archive/arc0021/0002199/1.1/data/0-data/HTML/WMO-CODE/WMO4677.HTM
 export const wmo_descriptions: WmoDescriptions = {

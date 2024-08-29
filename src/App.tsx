@@ -16,7 +16,7 @@ import {
 import { type AdjustedDailyForecast, wmo_descriptions } from "./lib/weather";
 
 function App() {
-	const { geolocation, forecast, airQuality } =
+	const { error, geolocation, forecast, airQuality } =
 		useFetchGeolocationAndForecast();
 
 	const adjustedHourlyForecast = forecast
@@ -64,9 +64,9 @@ function App() {
 	}, []);
 
 	// TODO: Add OSM, Open-Meteo, personal, design, license, etc. attribution
-	// TODO: Maybe user SWR/React Query for data fetching
-	// TODO: Add error handling (maybe use ErrorBoundary)
-	// TODO: Add loading states, maybe use skeleton loaders for values
+	// ? Maybe user SWR/React Query for data fetching
+	// ? Maybe add nicer error handling (maybe use ErrorBoundary)
+	// ? Maybe use skeleton loaders for values
 	// TODO: Extract components
 	// TODO: Extract JavaScript in JSX to variables
 	// TODO: Add hover tooltips for hourly weather time, temperature, and icon
@@ -74,7 +74,7 @@ function App() {
 	//	https://open-meteo.com/en/terms
 	//	https://operations.osmfoundation.org/policies/nominatim/
 	return (
-		// TODO: Maybe add some weather-agnostic default background
+		// ? Maybe add some weather-agnostic default background
 		<div
 			id="container"
 			className={`${
@@ -87,16 +87,21 @@ function App() {
 			<div id="before-inner-container">
 				<div id="inner-container">
 					<header>
-						<h5 id="my-location">My Location</h5>
+						<h5 id="my-location">
+							{error?.message || "My Location"}
+						</h5>
 						<div id="city-state-temperature">
 							<div id="city-state">
 								<h1 id="city">
-									{geolocation?.address.city ||
+									{(error && "Error") ||
+										geolocation?.address.city ||
 										geolocation?.address.county ||
 										"..."}
 								</h1>
 								<h3 id="state">
-									{geolocation?.address.country || "..."}
+									{(error && "API request failed") ||
+										geolocation?.address.country ||
+										"..."}
 								</h3>
 							</div>
 							{/* TODO: Maybe let user click on this to change temperature units */}
@@ -111,14 +116,15 @@ function App() {
 							</h1>
 						</div>
 						<h5 id="type">
-							{(forecast &&
-								wmo_descriptions[
-									forecast.current.weather_code
-								]?.[
-									forecast.current.is_day !== 0
-										? "day"
-										: "night"
-								]?.description) ||
+							{(error && "Please refresh the page") ||
+								(forecast &&
+									wmo_descriptions[
+										forecast.current.weather_code
+									]?.[
+										forecast.current.is_day !== 0
+											? "day"
+											: "night"
+									]?.description) ||
 								"..."}
 						</h5>
 					</header>
