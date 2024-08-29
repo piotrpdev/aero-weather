@@ -90,7 +90,9 @@ function fetchAirQuality(
 	return fetch(airQualityApiUrl.toString());
 }
 
-export default function useFetchGeolocationAndForecast(): {
+export default function useFetchGeolocationAndForecast(
+	refreshInterval = 1000 * 60 * 15,
+): {
 	error: Error | null;
 	coords: GeolocationCoordinates | null;
 	geolocation: GeolocationData | null;
@@ -114,50 +116,60 @@ export default function useFetchGeolocationAndForecast(): {
 
 		if (!coords || (forecast && geolocation)) return;
 
-		fetchGeolocation(coords.latitude, coords.longitude)
-			.then((res) => {
-				if (res.ok) {
-					return res.json();
-				}
-				throw new Error("Geolocation API request failed");
-			})
-			.then((data) => {
-				console.log("Geolocation data is:", data);
-				setGeolocation(data);
-			})
-			.catch((err) => {
-				setError(err);
-			});
+		const fetchGeolocationAndForecast = () => {
+			fetchGeolocation(coords.latitude, coords.longitude)
+				.then((res) => {
+					if (res.ok) {
+						return res.json();
+					}
+					throw new Error("Geolocation API request failed");
+				})
+				.then((data) => {
+					console.log("Geolocation data is:", data);
+					setGeolocation(data);
+				})
+				.catch((err) => {
+					setError(err);
+				});
 
-		fetchForecast(coords.latitude, coords.longitude)
-			.then((res) => {
-				if (res.ok) {
-					return res.json();
-				}
-				throw new Error("Forecast API request failed");
-			})
-			.then((data) => {
-				console.log("Forecast data is:", data);
-				setForecast(data);
-			})
-			.catch((err) => {
-				setError(err);
-			});
+			fetchForecast(coords.latitude, coords.longitude)
+				.then((res) => {
+					if (res.ok) {
+						return res.json();
+					}
+					throw new Error("Forecast API request failed");
+				})
+				.then((data) => {
+					console.log("Forecast data is:", data);
+					setForecast(data);
+				})
+				.catch((err) => {
+					setError(err);
+				});
 
-		fetchAirQuality(coords.latitude, coords.longitude)
-			.then((res) => {
-				if (res.ok) {
-					return res.json();
-				}
-				throw new Error("Air Quality API request failed");
-			})
-			.then((data) => {
-				console.log("Air quality data is:", data);
-				setAirQuality(data);
-			})
-			.catch((err) => {
-				setError(err);
-			});
+			fetchAirQuality(coords.latitude, coords.longitude)
+				.then((res) => {
+					if (res.ok) {
+						return res.json();
+					}
+					throw new Error("Air Quality API request failed");
+				})
+				.then((data) => {
+					console.log("Air quality data is:", data);
+					setAirQuality(data);
+				})
+				.catch((err) => {
+					setError(err);
+				});
+		};
+
+		fetchGeolocationAndForecast();
+		const interval = setInterval(
+			fetchGeolocationAndForecast,
+			refreshInterval,
+		);
+
+		return () => clearInterval(interval);
 	}, [coords?.longitude]);
 
 	return { error, coords, geolocation, forecast, airQuality };

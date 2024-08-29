@@ -63,14 +63,12 @@ function App() {
 		}
 	}, []);
 
-	// TODO: Add OSM, Open-Meteo, personal, design, license, etc. attribution
 	// ? Maybe user SWR/React Query for data fetching
 	// ? Maybe add nicer error handling (maybe use ErrorBoundary)
 	// ? Maybe use skeleton loaders for values
 	// TODO: Extract components
 	// TODO: Extract JavaScript in JSX to variables
 	// TODO: Add hover tooltips for hourly weather time, temperature, and icon
-	// TODO: Automatically update forecast every x minutes (rate limits shouldn't be a problem)
 	//	https://open-meteo.com/en/terms
 	//	https://operations.osmfoundation.org/policies/nominatim/
 	return (
@@ -477,6 +475,40 @@ function App() {
 					</main>
 				</div>
 			</div>
+			<footer className="forecast-item">
+				<div className="forecast-container">
+					<div>
+						Made with ❤️ by{" "}
+						<a
+							href="https://github.com/piotrpdev"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							@piotrpdev
+						</a>
+					</div>
+					<div>
+						Design by{" "}
+						<a
+							href="https://x.com/1000kilobytes"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							@1000kilobytes
+						</a>
+					</div>
+					<div>
+						Weather data by{" "}
+						<a
+							href="https://open-meteo.com/"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							Open-Meteo.com
+						</a>
+					</div>
+				</div>
+			</footer>
 		</div>
 	);
 }
