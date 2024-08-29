@@ -214,8 +214,11 @@ main {
     top: 0;
     width: 100%;
     height: 100%;
+	border-radius: 5px;
     backdrop-filter: blur(15px);
     z-index: 0;
+
+	/* box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3); */
 }
 
 .forecast-container:after {
@@ -230,6 +233,7 @@ main {
 	border: 1px solid rgb(0 0 0 / 40%);
 	box-shadow: inset 0 0 2px 1px rgba(255, 255, 255, 0.5);
     mix-blend-mode: overlay;
+	/* box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3); */
 }
 
 .forecast-heading {
@@ -326,6 +330,63 @@ main {
 	text-align: center;
 }
 
+#air-forecast-container {
+	display: flex;
+	flex-direction: column;
+}
+
+#air-forecast-scale-container {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+
+	isolation: isolate;
+}
+
+#air-forecast-image-container {
+	position: relative;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+    justify-content: center;
+
+	/* margin: 24px 0px; */
+
+	min-height: 30px;
+}
+
+#air-forecast-list {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+#air-forecast-scale {
+	height: 20px;
+	border-radius: 3px;
+	width: 100%;
+	/* https://stackoverflow.com/a/4418359/19020549 */
+	/* box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3); */
+	box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3), inset 0 0 3px 3px rgba(255, 255, 255, 0.5);
+}
+
+.air-forecast-scale-usaqi {
+	background: linear-gradient(to right, #00e42e 5%, #fefe3b 15%, #ff7e23 25%, #ff0019 35%, #903f95 45%, #7e0025 60%);
+}
+
+.air-forecast-scale-eaqi {
+	background: linear-gradient(to right, #4cf0e5 10%, #4dccab 30%, #efe553 50%, #ff5054 70%, #970033 90%, #7e227f 100%);
+}
+
+#circle-container {
+	position: absolute;
+	display: flex;
+	width: 20px;
+	filter: drop-shadow(0px 0px 4px hsla(0, 0%, 32%, 0.5));
+}
+
 #wind-forecast-container {
 	display: flex;
 	flex-direction: column;
@@ -347,8 +408,6 @@ main {
     justify-content: center;
 
 	/* margin: 24px 0px; */
-
-	isolation: isolate;
 
 	min-height: 140px;
 }

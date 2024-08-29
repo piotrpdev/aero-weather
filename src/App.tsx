@@ -15,7 +15,8 @@ import {
 import { type AdjustedDailyForecast, wmo_descriptions } from "./lib/weather";
 
 function App() {
-	const { geolocation, forecast } = useFetchGeolocationAndForecast();
+	const { geolocation, forecast, airQuality } =
+		useFetchGeolocationAndForecast();
 
 	const adjustedHourlyForecast = forecast
 		? timeAdjustHourlyForecast(forecast.hourly)
@@ -68,6 +69,9 @@ function App() {
 	// TODO: Extract components
 	// TODO: Extract JavaScript in JSX to variables
 	// TODO: Add hover tooltips for hourly weather time, temperature, and icon
+	// TODO: Automatically update forecast every x minutes (rate limits shouldn't be a problem)
+	//	https://open-meteo.com/en/terms
+	//	https://operations.osmfoundation.org/policies/nominatim/
 	return (
 		// TODO: Maybe add some weather-agnostic default background
 		<div
@@ -287,13 +291,65 @@ function App() {
 										"..."}
 								</div>
 							</div>
-							<div className="forecast-container">
+							<div
+								id="air-forecast-container"
+								className="forecast-container"
+							>
 								<h4
 									id="air-forecast-heading"
 									className="forecast-heading"
 								>
 									{forecast ? "Air Quality" : "..."}
 								</h4>
+								<div id="air-forecast-scale-container">
+									<div id="air-forecast-image-container">
+										{airQuality && geolocation && (
+											<>
+												<div
+													id="air-forecast-scale"
+													className={`air-forecast-scale-${geolocation.address.country_code === "us" ? "usaqi" : "eaqi"}`}
+												/>
+												<div
+													id="circle-container"
+													style={{
+														left: `calc(${geolocation.address.country_code === "us" ? (airQuality?.current.us_aqi / 500) * 100 : airQuality?.current.european_aqi}% - 10px)`,
+													}}
+												>
+													<svg
+														viewBox="0 0 20 20"
+														xmlns="http://www.w3.org/2000/svg"
+													>
+														<title>circle</title>
+														<circle
+															cx="10"
+															cy="10"
+															r="7"
+															stroke="gray"
+															strokeWidth="3"
+															fill="lightgray"
+														/>
+													</svg>
+												</div>
+											</>
+										)}
+									</div>
+									<div id="air-forecast-list">
+										<div className="air-forecast-item forecast-item">
+											<div>European AQI</div>
+											<div>
+												{airQuality?.current
+													.european_aqi || "..."}
+											</div>
+										</div>
+										<div className="air-forecast-item forecast-item">
+											<div>US AQI</div>
+											<div>
+												{airQuality?.current.us_aqi ||
+													"..."}
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 							<div
 								id="wind-forecast-container"

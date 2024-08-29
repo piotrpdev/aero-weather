@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import type { ForecastData, GeolocationData } from "../lib/weather";
+import type {
+	AirQualityData,
+	ForecastData,
+	GeolocationData,
+} from "../lib/weather";
 
 const IS_TEST = false;
 // White House coordinates (Washington, D.C., USA)
@@ -63,16 +67,41 @@ function fetchForecast(latitude: number, longitude: number): Promise<Response> {
 	return fetch(forecastApiUrl.toString());
 }
 
+function fetchAirQuality(
+	latitude: number,
+	longitude: number,
+): Promise<Response> {
+	const airQualityApiUrl = new URL(
+		"https://air-quality-api.open-meteo.com/v1/air-quality",
+	);
+	airQualityApiUrl.searchParams.set(
+		"latitude",
+		IS_TEST ? TEST_LAT : latitude.toString(),
+	);
+	airQualityApiUrl.searchParams.set(
+		"longitude",
+		IS_TEST ? TEST_LON : longitude.toString(),
+	);
+	airQualityApiUrl.searchParams.set(
+		"current",
+		["european_aqi", "us_aqi"].join(","),
+	);
+	airQualityApiUrl.searchParams.set("timezone", "UTC");
+	return fetch(airQualityApiUrl.toString());
+}
+
 export default function useFetchGeolocationAndForecast(): {
 	coords: GeolocationCoordinates | null;
 	geolocation: GeolocationData | null;
 	forecast: ForecastData | null;
+	airQuality: AirQualityData | null;
 } {
 	const [coords, setCoords] = useState<GeolocationCoordinates | null>(null);
 	const [geolocation, setGeolocation] = useState<GeolocationData | null>(
 		null,
 	);
 	const [forecast, setForecast] = useState<ForecastData | null>(null);
+	const [airQuality, setAirQuality] = useState<AirQualityData | null>(null);
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: object dep
 	useEffect(() => {
@@ -98,7 +127,14 @@ export default function useFetchGeolocationAndForecast(): {
 				console.log("Forecast data is:", data);
 				setForecast(data);
 			});
+
+		fetchAirQuality(coords.latitude, coords.longitude)
+			.then((res) => res.json())
+			.then((data) => {
+				console.log("Air quality data is:", data);
+				setAirQuality(data);
+			});
 	}, [coords?.longitude]);
 
-	return { coords, geolocation, forecast };
+	return { coords, geolocation, forecast, airQuality };
 }
