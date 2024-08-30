@@ -1,6 +1,6 @@
 [package]
 name = "aero-weather"
-version = "1.0.0"
+version = "1.0.1"
 description = "A Tauri App"
 authors = ["Piotr Płaczek <piotrpdev@gmail.com>", "kilobyte <https://x.com/1000kilobytes>"]
 license = "GPL-3.0"
