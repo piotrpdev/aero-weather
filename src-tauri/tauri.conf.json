@@ -1,6 +1,6 @@
 {
 	"productName": "Aero Weather",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"identifier": "dev.piotrp.aero-weather",
 	"build": {
 		"beforeDevCommand": "npm run dev",

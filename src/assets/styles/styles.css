@@ -247,7 +247,7 @@ main {
 	padding-bottom: 8px;
 	border-bottom: 1px solid rgb(255 255 255 / 40%);
 	mix-blend-mode: overlay;
-	text-shadow: 0 0 0px white;
+	/* text-shadow: 0 0 0px white; */
 }
 
 .forecast-item {
@@ -490,7 +490,7 @@ footer {
 	display: flex;
 	margin-bottom: 12px;
 	justify-content: center;
-    text-shadow: 0 0 0px white;
+    /* text-shadow: 0 0 0px white; */
 
 	cursor: default;
 }
@@ -502,6 +502,6 @@ footer .forecast-container {
 
 footer .forecast-container * {
 	isolation: isolate;
-	color: hsl(0, 0%, 60%);
+	color: hsl(0, 0%, 80%);
 	/* mix-blend-mode: overlay; */
 }
