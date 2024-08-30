@@ -10,7 +10,7 @@ use tauri_plugin_decorum::WebviewWindowExt;
 use window_vibrancy::apply_acrylic;
 
 #[cfg(target_os = "macos")]
-use window_vibrancy::apply_vibrancy;
+use window_vibrancy::{apply_vibrancy, NSVisualEffectMaterial};
 
 fn main() {
     tauri::Builder::default()
@@ -38,14 +38,14 @@ fn main() {
                         );
 
                     // Set a custom inset to the traffic lights
-                    main_window.set_traffic_lights_inset(12.0, 16.0).unwrap();
+                    // main_window.set_traffic_lights_inset(12.0, 16.0).unwrap();
 
                     // Make window transparent without privateApi
                     // main_window.make_transparent().unwrap();
 
                     // Set window level
                     // NSWindowLevel: https://developer.apple.com/documentation/appkit/nswindowlevel
-                    main_window.set_window_level(25).unwrap();
+                    // main_window.set_window_level(25).unwrap();
                 }
             }
 

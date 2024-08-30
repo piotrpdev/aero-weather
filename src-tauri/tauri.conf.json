@@ -1,10 +1,10 @@
 {
 	"productName": "aero-weather",
-	"version": "0.0.0",
+	"version": "1.0.0",
 	"identifier": "dev.piotrp.aero-weather",
 	"build": {
-		"beforeDevCommand": "yarn dev",
-		"beforeBuildCommand": "yarn build",
+		"beforeDevCommand": "npm run dev",
+		"beforeBuildCommand": "npm run build",
 		"devUrl": "http://localhost:1420",
 		"frontendDist": "../dist"
 	},
